@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Forum Dalam Pengembangan</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #dbeafe, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    .back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #f3f4f6;
+  color: #1f2937;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 3;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s;
+  
+  /* Tambahan ini penting */
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+    .back-button:hover {
+      background-color: #e5e7eb;
+    }
+
+    .back-button:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
+    .container {
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 20px;
+      text-align: center;
+      max-width: 550px;
+      width: 90%;
+      position: relative;
+      z-index: 2;
+      animation: fadeIn 1.2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .gear-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .gear-frame {
+      width: 220px;
+      height: 180px;
+      border: none;
+      display: block;
+      background: transparent;
+    }
+
+    .icon {
+      font-size: 45px;
+      color: #f59e0b;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .typing-text {
+      color: #555;
+      font-size: 16px;
+      min-height: 24px;
+      margin-bottom: 15px;
+    }
+
+    .footer-text {
+      font-size: 11px;
+      color: #888;
+      margin-top: 10px;
+    }
+
+    .particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0; left: 0;
+      z-index: 1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: rgba(0,0,0,0.07);
+      border-radius: 50%;
+      animation: floatUp 6s linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+      50% { opacity: 0.4; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
+    .running-text {
+      position: absolute;
+      bottom: 5px;
+      width: 100%;
+      font-size: 12px;
+      color: #64748b;
+      text-align: center;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="back-button" onclick="window.location.href='index.html'"> Balik
+  </button>
+
+  <div class="particles" id="particles"></div>
+
+  <div class="container">
+    <div class="gear-wrapper">
+      <iframe src="9541ASP.html" class="gear-frame" title="Gear Content" onload="playSound()"></iframe>
+    </div>
+
+    <div class="icon"><i class="fas fa-person-digging"></i></div>
+    <h2>Forum Dalam Pengembangan</h2>
+    <div class="typing-text" id="typingText"></div>
+    <div class="footer-text">Versi Forum v0.6-beta</div>
+  </div>
+
+  <div class="running-text">Forum sedang ditingkatkan...</div>
+
+  <audio id="gearSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6c8328ae09.mp3" preload="auto"></audio>
+
+  <script>
+    const texts = [
+      "Membangun fitur terbaik untuk Anda...",
+      "Mengoptimalkan performa forum...",
+      "Menambahkan sistem keamanan...",
+      "Menyempurnakan pengalaman pengguna...",
+      "Agar makin anjay...."
+    ];
+    let count = 0, index = 0, currentText = '', letter = '';
+    (function type() {
+      if (count === texts.length) count = 0;
+      currentText = texts[count];
+      letter = currentText.slice(0, ++index);
+      document.getElementById("typingText").textContent = letter;
+      if (letter.length === currentText.length) {
+        count++;
+        index = 0;
+        setTimeout(type, 2000);
+      } else {
+        setTimeout(type, 70);
+      }
+    })();
+
+    const container = document.getElementById("particles");
+    for (let i = 0; i < 30; i++) {
+      const dot = document.createElement("div");
+      dot.classList.add("particle");
+      dot.style.left = Math.random() * 100 + "vw";
+      dot.style.animationDelay = Math.random() * 6 + "s";
+      container.appendChild(dot);
+    }
+
+    function playSound() {
+      document.getElementById("gearSound").play();
+    }
+  </script>
+</body>
+</html>

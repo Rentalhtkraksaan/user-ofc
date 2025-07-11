@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Launch page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      overflow:hidden;
+      width:100%;
+      height:100%
+    }
+
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      background-size: 300% 300%;
+      animation: gradientMove 15s ease infinite;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      flex-direction: column;
+      padding: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #60a5fa, #9333ea, #f43f5e);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: gradientText 8s ease infinite;
+      min-height: 2em;
+    }
+
+    @keyframes gradientText {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    p {
+      font-size: 1em;
+      margin-bottom: 25px;
+      color: #cbd5e1;
+    }
+
+    .countdown {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      font-size: 1.8em;
+    }
+
+    .time-part {
+      background-color: #334155;
+      padding: 15px 10px;
+      border-radius: 10px;
+      min-width: 60px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    .time-part.blast::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 30px;
+      height: 30px;
+      background: radial-gradient(circle, #facc15, transparent);
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      opacity: 0;
+      animation: blastAnim 0.4s forwards;
+    }
+
+    @keyframes blastAnim {
+      0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+    }
+
+    .label {
+      font-size: 0.6em;
+      color: #94a3b8;
+      margin-top: 6px;
+      display: block;
+    }
+
+    .btn-kembali {
+      position: fixed;
+      bottom: 15px;
+      left: 15px;
+      padding: 10px 16px;
+      font-size: 0.9em;
+      background-color: #ffffff22;
+      color: #ffffff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      overflow: hidden;
+      z-index: 999;
+      outline:none;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .btn-kembali:focus{
+      outline:none;
+    }
+
+    .btn-kembali::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
+      transition: all 0.5s;
+    }
+
+    .btn-kembali:hover::before {
+      left: 100%;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #0f172a;
+      padding: 4px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-top: 1px solid #334155;
+      z-index: 10;
+      height: 30px;
+    }
+
+    .footer p {
+      color: #94a3b8;
+      font-size: 0.75em;
+      line-height: 1;
+      margin: 0;
+    }
+
+    .overlay-opened {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 999;
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .overlay-opened h2 {
+      font-size: 1.8em;
+      margin-bottom: 10px;
+    }
+
+    .overlay-opened p {
+      font-size: 1em;
+      color: #cbd5e1;
+    }
+
+    /* ANIMASI BINTANG SILANG */
+    .star {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: white;
+      opacity: 0.8;
+      border-radius: 50%;
+      animation: crossMove 6s linear infinite;
+      overflow-anchor: none;
+      pointer-events: none;
+    }
+
+    .star.right-left {
+      top: 0;
+      right: 0;
+      animation: crossMoveRL 10s linear infinite;
+    }
+
+    @keyframes crossMove {
+      0% {
+        top: -10px;
+        left: -10px;
+        transform: scale(1);
+        opacity: 0.7;
+      }
+      100% {
+        top: 100%;
+        left: 100%;
+        transform: scale(0.3);
+        opacity: 0;
+      }
+    }
+
+    @keyframes crossMoveRL {
+      0% {
+        top: -10px;
+        right: -10px;
+        transform: scale(1);
+        opacity: 0.7;
+      }
+      100% {
+        top: 100%;
+        right: 100%;
+        transform: scale(0.3);
+        opacity: 0;
+      }
+    }
+
+    .particle {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: radial-gradient(circle, #ffffffcc, transparent);
+      border-radius: 50%;
+      animation: floatParticle 12s linear infinite;
+      opacity: 0.5;
+      overflow-anchor: none;
+      pointer-events: none;
+    }
+
+    @keyframes floatParticle {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.5;
+      }
+      50% {
+        transform: translateY(-100px) scale(1.2);
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(0) scale(1);
+        opacity: 0.5;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 1.5em; }
+      p { font-size: 0.9em; }
+      .countdown { font-size: 1.2em; gap: 10px; }
+      .time-part { padding: 10px 6px; min-width: 50px; }
+      .btn-kembali { font-size: 0.8em; padding: 8px 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="star"></div>
+  <div class="star"></div>
+  <div class="star"></div>
+  <div class="star"></div>
+  <div class="star right-left"></div>
+  <div class="star right-left"></div>
+  <div class="star right-left"></div>
+  <div class="particle" style="top: 20%; left: 80%; animation-delay: 1s;"></div>
+  <div class="particle" style="top: 60%; left: 10%; animation-delay: 3s;"></div>
+  <div class="particle" style="top: 10%; left: 50%; animation-delay: 5s;"></div>
+  <div class="particle" style="top: 85%; left: 75%; animation-delay: 6s;"></div>
+
+  <h1 id="typed"></h1>
+  <p>pada 12 Juli 2025, pukul 20:00 WIB</p>
+
+  <div class="countdown" id="countdown">
+    <div class="time-part" id="part-days"><div id="days">00</div><span class="label">Hari</span></div>
+    <div class="time-part" id="part-hours"><div id="hours">00</div><span class="label">Jam</span></div>
+    <div class="time-part" id="part-minutes"><div id="minutes">00</div><span class="label">Menit</span></div>
+    <div class="time-part" id="part-seconds"><div id="seconds">00</div><span class="label">Detik</span></div>
+  </div>
+
+  <div class="overlay-opened" id="overlayOpened" style="display: none;">
+    <h2>Website telah dibuka</h2>
+    <p>Silahkan kembali ke menu utama<br>Sistem AI kami akan segera bekerja</p>
+  </div>
+
+  <a href="index.html" class="btn-kembali">Kembali</a>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+  <script>
+    window.onload = function () {
+      const firebaseConfig = {
+        apiKey: "AIzaSyCUWUVXM8YH6aoPCu_9ku9aLHOQmexS4YA",
+        authDomain: "review-rentht.firebaseapp.com",
+        projectId: "review-rentht",
+        storageBucket: "review-rentht.appspot.com",
+        messagingSenderId: "1022795073904",
+        appId: "1:1022795073904:web:4ea8ea4ecebf4042e527b5",
+        databaseURL: "https://review-rentht-default-rtdb.firebaseio.com/"
+      };
+      firebase.initializeApp(firebaseConfig);
+
+      let serverOffset = null;
+      let countdownInterval = null;
+      let lastSecond = null;
+
+      firebase.database().ref("/.info/serverTimeOffset").on("value", snap => {
+        if (snap.exists()) {
+          serverOffset = snap.val();
+          updateCountdown();
+          countdownInterval = setInterval(updateCountdown, 1000);
+        } else {
+          tampilkanCountdownNol();
+        }
+      });
+
+      function updateCountdown() {
+        if (serverOffset === null) return;
+
+        const now = Date.now() + serverOffset;
+        const target = new Date("2025-07-12T20:00:00+07:00").getTime();
+        const diff = target - now;
+        if (diff <= 0) {
+  clearInterval(countdownInterval);
+  tampilkanCountdownNol();
+  window.location.href = "ch78sbhi.html"; // Redirect ke halaman baru
+  return;
+}
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        document.getElementById("days").textContent = String(days).padStart(2, "0");
+        document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+        document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+        document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+
+        if (lastSecond !== null && lastSecond !== seconds) {
+          const el = document.getElementById("part-seconds");
+          el.classList.add("blast");
+          setTimeout(() => el.classList.remove("blast"), 400);
+        }
+        lastSecond = seconds;
+      }
+
+      function tampilkanCountdownNol() {
+        ["days", "hours", "minutes", "seconds"].forEach(id => {
+          document.getElementById(id).textContent = "00";
+        });
+      }
+
+      // Ketikan animasi
+      const texts = [
+        "Website akan dibuka...",
+        "Siapkan dirimu untuk pengalaman baru",
+        "Sistem AI kami sedang disiapkan",
+        "Tunggu sebentar lagi",
+        "Rental HT lebih mudah, cepat, dan cerdas",
+        "Kami hadir untuk kebutuhan komunikasi anda",
+        "bergaya masadepan",
+        "pelayanan ramah",
+        "event kecil hingga besar menggunakan kita",
+        "Melayani dengan teknologi dan hati",
+        "Bukan rental biasa,ini luar biasa!",
+        "Koneksi yang kuat dimulai dari komunikasi yang cerdas",
+        "Optimasi sistem... 85% selesai 🚀",
+        "Bersiaplah... ini bukan sekadar website",
+        "Terima kasih sudah menunggu. Kamu keren!"
+      ];
+
+      let textIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+      const typedEl = document.getElementById("typed");
+
+      function ketikTeksLoop() {
+        const currentText = texts[textIndex];
+        if (isDeleting) {
+          charIndex--;
+          typedEl.textContent = currentText.substring(0, charIndex);
+        } else {
+          charIndex++;
+          typedEl.textContent = currentText.substring(0, charIndex);
+        }
+
+        let delay = isDeleting ? 40 : 70;
+
+        if (!isDeleting && charIndex === currentText.length) {
+          delay = 1500;
+          isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          textIndex = (textIndex + 1) % texts.length;
+          delay = 500;
+        }
+
+        setTimeout(ketikTeksLoop, delay);
+      }
+
+      ketikTeksLoop();
+    };
+  </script>
+</body>
+</html>

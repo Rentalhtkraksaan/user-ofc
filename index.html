@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rental HT Kraksaan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: #0d0d0d;
+      font-family: 'Orbitron', sans-serif;
+      color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      padding: 40px 30px;
+      border-radius: 18px;
+      max-width: 700px;
+      width: 90%;
+      box-shadow: 0 0 40px rgba(255,255,255,0.05), inset 0 0 10px rgba(255,255,255,0.02);
+      text-align: center;
+      position: relative;
+      transition: all 0.8s ease;
+    }
+
+    .fade-blur {
+      filter: blur(8px);
+      opacity: 0;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 25px;
+      color: #ffffff;
+      text-shadow: 0 0 12px rgba(255,255,255,0.2), 0 0 20px rgba(255,255,255,0.05);
+      letter-spacing: 2px;
+    }
+
+    #teksTampil {
+      font-size: 1.1em;
+      text-align: left;
+      min-height: 160px;
+      padding: 20px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid #444;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      white-space: pre-wrap;
+      line-height: 1.7;
+      color: #ccc;
+      box-shadow: inset 0 0 12px rgba(255,255,255,0.03);
+    }
+
+    .button-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    button, .admin-link {
+      padding: 12px 28px;
+      font-size: 1em;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      background-color: #1f1f1f;
+      color: #f0f0f0;
+      cursor: pointer;
+      border: 1px solid #666;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 8px rgba(255,255,255,0.1);
+      text-decoration: none;
+      text-align: center;
+      outline: none;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:hover, .admin-link:hover {
+      background-color: #333;
+      transform: scale(1.06);
+      box-shadow: 0 0 15px rgba(255,255,255,0.2);
+    }
+
+    button:focus, button:active,
+    .admin-link:focus, .admin-link:active {
+      outline: none;
+      box-shadow: none;
+      text-decoration: none;
+    }
+
+    .logo {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      width: 60px;
+      height: auto;
+      border-radius: 9px;
+    }
+    .logo1 {
+      position: absolute;
+      top: 1px;
+      right: 1px;
+      width: 60px;
+      height: auto;
+      border-radius: 9px;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="mainContainer">
+    <img src="rchs4klb.jpg" alt="Logo" class="logo">
+    <a href="https://instagram.com/rentalhtkraksaan" target="_blank"><img src="loho2.jpg" alt="logo" class="logo1"></a>
+    <h1>WELCOME</h1>
+    <div id="teksTampil">Memuat...</div>
+    <div class="button-row">
+      <a href="https://wa.me/6285176871609?text=Halo%20admin%2Csaya%20dari%20website.%0AMau%20tnya%20soal%20ht%20nih" target="_blank" class="admin-link">ADMIN</a>
+      <button id="lanjutBtn" disabled>MASUK</button>
+    </div>
+  </div>
+
+  <script>
+    const kalimatList = [
+      "Rental HT Kraksaan hadir sebagai solusi komunikasi yang cepat, jelas, dan tanpa repot.",
+      "Kami memastikan setiap unit HT dalam kondisi prima sebelum sampai di tangan Anda.",
+      "Baik untuk acara besar, kegiatan lapangan, atau event pribadi—kami siap mendukung Anda sepenuhnya.",
+      "Kejelasan komunikasi di lapangan bukan pilihan, tapi kebutuhan yang kami bantu penuhi.",
+      "Kami mengutamakan kenyamanan, ketepatan waktu, dan pelayanan yang bisa Anda andalkan.",
+      "Rental HT Kraksaan bukan sekadar menyewakan alat, tapi memberi kemudahan dan rasa aman.",
+      "Dalam setiap kegiatan, kami hadir sebagai pendukung komunikasi yang siap sedia.",
+      "Dengan pengalaman dan pelayanan maksimal, kami jadi pilihan utama di Kraksaan dan sekitarnya.",
+      "Kami memahami pentingnya koordinasi yang solid, dan itulah yang kami bantu wujudkan.",
+      "Percayakan kebutuhan HT Anda kepada tim yang berpengalaman dan profesional."
+    ];
+    
+    const teksTampil = document.getElementById('teksTampil');
+    const lanjutBtn = document.getElementById("lanjutBtn");
+    const container = document.getElementById("mainContainer");
+    let index = 0;
+
+    function ketikTeks(teks, kecepatan = 30) {
+      return new Promise(resolve => {
+        teksTampil.textContent = "";
+        let i = 0;
+        const interval = setInterval(() => {
+          teksTampil.textContent += teks.charAt(i);
+          i++;
+          if (i >= teks.length) {
+            clearInterval(interval);
+            resolve();
+          }
+        }, kecepatan);
+      });
+    }
+
+    async function tampilkanKalimat() {
+      const kalimat = kalimatList[index];
+      ketikTeks(kalimat);
+      setTimeout(() => {
+        lanjutBtn.disabled = false;
+      }, 1);
+      await new Promise(r => setTimeout(r, 4000));
+      teksTampil.textContent = "";
+      await new Promise(r => setTimeout(r, 1000));
+      index = (index + 1) % kalimatList.length;
+      tampilkanKalimat();
+    }
+
+    tampilkanKalimat();
+  </script>
+
+  <!-- Firebase -->
+  <!-- ... semua tag <head> dan <body> seperti punyamu sebelumnya tetap sama ... -->
+
+<!-- Firebase -->
+ <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, get, push, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const app = initializeApp({
+    apiKey: "AIzaSyBiNwS8pU3D6iF5gTmM95kzMIy-tm_sTIY",
+    authDomain: "rentalhtkraksaan-61397.firebaseapp.com",
+    databaseURL: "https://rentalhtkraksaan-61397-default-rtdb.firebaseio.com",
+    projectId: "rentalhtkraksaan-61397",
+    storageBucket: "rentalhtkraksaan-61397.appspot.com",
+    messagingSenderId: "665290802617",
+    appId: "1:665290802617:web:efb004f474218e443fa268"
+  });
+
+  const db = getDatabase(app);
+  const auth = getAuth(app);
+
+  // 🔐 Login anonymous
+  signInAnonymously(auth)
+    .then(() => {
+      console.log("✅ Login anonymous berhasil");
+
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          const uid = user.uid;
+          console.log("UID login:", uid);
+
+          lanjutBtn.onclick = async () => {
+            lanjutBtn.disabled = true;
+
+            try {
+              const now = new Date();
+              const tanggal = now.toLocaleDateString("id-ID", {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              });
+              const waktu = now.toLocaleTimeString("id-ID", {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+              });
+              const waktuLengkap = `${tanggal}, ${waktu}`;
+
+              const pengunjungRef = ref(db, "pengunjung");
+              const newRef = push(pengunjungRef);
+              await set(newRef, { waktu: waktuLengkap, uid });
+
+              // Ambil status forum
+              const snap = await get(ref(db, "forumStatus"));
+              const status = snap.val();
+
+              container.classList.add("fade-blur");
+
+              setTimeout(() => {
+                if (status === 2) {
+                  location.href = "alkchb.html";
+                } else if (status === 1) {
+                  location.href = "Launch-release-info-countdown-page.html";
+                } else {
+                  location.href = "dev-preview-update-log.html";
+                }
+              }, 800);
+            } catch (err) {
+              alert("Gagal menyimpan pengunjung atau cek status forum.");
+              console.error(err);
+              lanjutBtn.disabled = false;
+            }
+          };
+        }
+      });
+    })
+    .catch((error) => {
+      console.error("❌ Gagal login anonymous", error);
+      alert("Autentikasi gagal. Coba muat ulang halaman.");
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cek Jarak & Antar</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #1e1e1e, #2c2c2c);
+      color: #e5e5e5;
+    }
+    .glass {
+      backdrop-filter: blur(12px);
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    input[type="radio"] {
+      accent-color: #777;
+    }
+    .pulse-button {
+      animation: warningPulse 1.6s infinite ease-in-out;
+    }
+    @keyframes warningPulse {
+      0%   { background-color: #3a3a3a; box-shadow: 0 0 0px rgba(255,255,255,0.05); }
+      50%  { background-color: #6b7280; box-shadow: 0 0 10px rgba(255,255,255,0.2); }
+      100% { background-color: #3a3a3a; box-shadow: 0 0 0px rgba(255,255,255,0.05); }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center px-4">
+  <div class="max-w-xl w-full glass shadow-xl rounded-xl p-6">
+    <h1 class="text-2xl font-bold text-center mb-6 text-white flex items-center justify-center gap-2">
+      <i data-lucide="map-pin" class="w-6 h-6 text-white"></i> CEK BIAYA & JARAK
+    </h1>
+
+    <div class="space-y-4">
+      <button onclick="cekJarakLengkap()" class="pulse-button w-full text-white font-semibold px-4 py-3 rounded-lg transition shadow-md">
+        CEK JARAK
+      </button>
+      <div id="hasilJarak" class="text-sm font-semibold text-green-400 hidden mt-2 leading-relaxed"></div>
+
+      <p class="font-semibold mt-4">Gunakan Layanan Pengantaran?</p>
+      <div class="flex space-x-6">
+        <label><input type="radio" name="layanan" value="ya" onclick="togglePilihanLayanan(true)"> Ya</label>
+        <label><input type="radio" name="layanan" value="tidak" onclick="togglePilihanLayanan(false)"> Tidak</label>
+      </div>
+
+      <div id="pilihanLayanan" class="hidden space-x-6 mt-2">
+        <label><input type="radio" name="jenisLayanan" value="antar" onchange="updateBiaya()"> Antar</label>
+        <label><input type="radio" name="jenisLayanan" value="antarjemput" onchange="updateBiaya()"> Antar-Jemput</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="fixed bottom-4 left-4">
+    <a href="a128nrur98.html" class="px-4 py-2 rounded-lg shadow glass text-white font-semibold hover:bg-white hover:text-black transition flex items-center gap-2">
+       BALIK
+    </a>
+  </div>
+
+  <!-- Firebase -->
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+  import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyARrxdwo63OFMpPULhSkVof1ws-GvIlLlQ",
+    authDomain: "koor-baru.firebaseapp.com",
+    databaseURL: "https://koor-baru-default-rtdb.firebaseio.com/",
+    projectId: "koor-baru",
+    storageBucket: "koor-baru.appspot.com",
+    messagingSenderId: "441251824027",
+    appId: "1:441251824027:web:2080bc50880f2a8d29213e"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getDatabase(app);
+  let latestJarak = 0;
+
+  // Login anonymous dulu
+  signInAnonymously(auth).catch((error) => {
+    alert("Gagal login anonymous: " + error.message);
+  });
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      window.cekJarakLengkap = function () {
+        const hasilBox = document.getElementById("hasilJarak");
+
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (pos) => {
+              const lat = pos.coords.latitude;
+              const lon = pos.coords.longitude;
+              const jarakKm = hitungJarak(lat, lon, -7.760882, 113.417693); // Lokasi Alun-Alun Kraksaan
+              latestJarak = jarakKm;
+
+              const now = new Date();
+              const tanggal = now.toISOString().split("T")[0];
+              const waktu = now.toTimeString().split(" ")[0];
+
+              // Simpan ke database
+              push(ref(db, "koordinat"), {
+                latitude: lat,
+                longitude: lon,
+                tanggal: tanggal,
+                waktu: waktu,
+                uid: user.uid
+              });
+
+              hasilBox.classList.remove("hidden");
+              hasilBox.innerHTML = `Jarak: ±${jarakKm.toFixed(2)} km`;
+
+              // Kalau sudah pilih layanan, update biaya
+              updateBiaya();
+            },
+            () => {
+              hasilBox.classList.remove("hidden");
+              hasilBox.innerHTML = "❌ Gagal ambil lokasi. Izinkan akses GPS.";
+            }
+          );
+        } else {
+          hasilBox.classList.remove("hidden");
+          hasilBox.innerHTML = "❌ Browser tidak mendukung geolokasi.";
+        }
+      };
+    }
+  });
+
+  // Fungsi hitung jarak
+  function hitungJarak(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) ** 2 +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon / 2) ** 2;
+    return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+  }
+
+  // Toggle Pilihan Layanan
+  window.togglePilihanLayanan = function (show) {
+    const layananBox = document.getElementById("pilihanLayanan");
+    const hasilBox = document.getElementById("hasilJarak");
+    layananBox.classList.toggle("hidden", !show);
+
+    if (!show) {
+      hasilBox.innerHTML = latestJarak > 0 ? `Jarak: ±${latestJarak.toFixed(2)} km` : "";
+      hasilBox.classList.toggle("hidden", latestJarak === 0);
+      document.querySelectorAll('input[name="jenisLayanan"]').forEach(el => el.checked = false);
+    } else if (latestJarak > 0) {
+      updateBiaya();
+    }
+  };
+
+  // Update Biaya berdasarkan jarak & jenis layanan
+  window.updateBiaya = function () {
+    const jenis = document.querySelector('input[name="jenisLayanan"]:checked');
+    const hasilBox = document.getElementById("hasilJarak");
+    if (!jenis || latestJarak === 0) return;
+
+    let biaya = jenis.value === "antar" ? latestJarak * 5000 : latestJarak * 2 * 5000;
+    hasilBox.classList.remove("hidden");
+    hasilBox.innerHTML = `Jarak: ±${latestJarak.toFixed(2)} km<br>Biaya: Rp ${Math.round(biaya).toLocaleString("id-ID")}`;
+  };
+
+  // Inisialisasi ikon Lucide (jika pakai)
+  if (window.lucide) lucide.createIcons();
+</script>
+
+</body>
+</html>

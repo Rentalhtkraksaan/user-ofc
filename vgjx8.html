@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nota Sewa</title>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 20px;
+      background: #f9f9f9;
+    }
+      button, a {
+    -webkit-tap-highlight-color: transparent;
+  }
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .header img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    .info p { margin: 4px 0; font-size: 14px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 6px;
+      text-align: center;
+      font-size: 13px;
+    }
+    .total {
+      margin-top: 10px;
+      font-weight: bold;
+      text-align: right;
+    }
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .actions button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      transition: 0.3s;
+      flex: 1;
+    }
+    #ubahPesananBtn { background: #dc3545; color: white; }
+    #lanjutkanBtn { background: #28a745; color: black; }
+    #downloadBtn { background: #333; color: white; }
+    .warning {
+      margin-top: 10px;
+      font-size: 13px;
+      color: red;
+      text-align: center;
+    }
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+    }
+    .popup-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .popup-content button {
+      margin: 10px 5px 0;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .btn-cancel { background: red; color: white; }
+    .btn-send { background: green; color: white; }
+    .extra-info {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #666;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+<div class="container" id="nota">
+  <div class="header">
+    <img src="rchs4klb.jpg" alt="Logo">
+    <div>
+      <div class="title" style="font-size: 18px; font-weight: bold;">RENTAL HT KRAKSAAN</div>
+      <div style="font-size: 12px; color: #555;">Jl kampung madura rt 2 rw 3</div>
+    </div>
+  </div>
+  <div class="info" id="info"></div>
+  <table id="pesananTable">
+    <thead>
+      <tr><th>No</th><th>Unit</th><th>Harga</th><th>Jumlah</th><th>Total</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <div class="total" id="totalTag"></div>
+  <div class="extra-info" id="extraInfo"></div>
+  <div id="mapContainer" style="margin-top: 10px; display:none;">
+    <p style="font-size: 12px; color: #666;">Lokasi di Peta:</p>
+    <iframe id="mapFrame" width="100%" height="250" style="border:0; border-radius: 8px;" allowfullscreen="" loading="lazy"></iframe>
+  </div>
+  <div class="actions">
+    <button id="ubahPesananBtn" onclick="ubahPesanan()">Ubah Pesanan</button>
+    <button id="downloadBtn" onclick="downloadNota()">Unduh Nota (JPG)</button>
+    <button id="lanjutkanBtn" onclick="showPopup()">Lanjutkan</button>
+  </div>
+  <div class="warning">⚠️ Pastikan Anda sudah screenshot atau unduh nota ini sebelum melanjutkan!</div>
+</div>
+
+<!-- Pop-up konfirmasi -->
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <p>Sudah screenshot atau unduh nota?</p>
+    <label><input type="checkbox" id="checkboxScreenshot"> Ya, saya sudah</label><br/>
+    <button class="btn-cancel" onclick="closePopup()">Belum</button>
+    <button class="btn-send" id="btnSend" disabled>Kirim</button>
+  </div>
+</div>
+
+<!-- Firebase + Script -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+
+// Firebase config kamu
+const firebaseConfig = {
+  apiKey: "AIzaSyBiNwS8pU3D6iF5gTmM95kzMIy-tm_sTIY",
+  authDomain: "rentalhtkraksaan-61397.firebaseapp.com",
+  databaseURL: "https://rentalhtkraksaan-61397-default-rtdb.firebaseio.com",
+  projectId: "rentalhtkraksaan-61397",
+  storageBucket: "rentalhtkraksaan-61397.appspot.com",
+  messagingSenderId: "665290802617",
+  appId: "1:665290802617:web:efb004f474218e443fa268"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const db = getDatabase(app);
+
+// Login Anonymous dulu
+signInAnonymously(auth).then(() => {
+  console.log("Logged in anonymously");
+}).catch((error) => {
+  alert("Gagal login anon: " + error.message);
+});
+
+// Tunggu sampai auth siap
+onAuthStateChanged(auth, (user) => {
+  if (!user) return;
+
+  // Data dari localStorage
+  const data = JSON.parse(localStorage.getItem("formPemesanan") || "{}");
+  if (!data.nama) location.href = "kq7x21m.html";
+
+  const tgl = new Date(data.tanggal);
+  const ambil = new Date(tgl); ambil.setDate(ambil.getDate() - 1);
+  const kembali = new Date(tgl); kembali.setDate(kembali.getDate() + parseInt(data.hari) - 1);
+  const pad = (n) => String(n).padStart(2, '0');
+
+  document.getElementById("info").innerHTML = `
+    <p>Nama: ${data.nama}</p>
+    <p>Tanggal Sewa: ${data.tanggal}</p>
+    <p>Jumlah Hari: ${data.hari} hari</p>
+    <p>Tanggal Diambil: ${ambil.toISOString().split("T")[0]}</p>
+    <p>Tanggal Kembali: ${kembali.toISOString().split("T")[0]}</p>
+  `;
+
+  const tbody = document.querySelector("tbody");
+  let totalAkhir = 0;
+  const barangList = data.pesanan.map((item, i) => {
+    const total = item.total;
+    totalAkhir += total;
+    tbody.innerHTML += `
+      <tr>
+        <td>${i + 1}</td>
+        <td>${item.unit}</td>
+        <td>Rp ${(item.harga * 1000).toLocaleString()}</td>
+        <td>${item.jumlah}</td>
+        <td>Rp ${total.toLocaleString()}</td>
+      </tr>
+    `;
+    return `${item.jumlah} ${item.unit}`;
+  });
+
+  document.getElementById("totalTag").textContent = `Total: Rp ${totalAkhir.toLocaleString()}`;
+
+  document.getElementById("checkboxScreenshot").addEventListener("change", function () {
+    document.getElementById("btnSend").disabled = !this.checked;
+  });
+
+  document.getElementById("btnSend").addEventListener("click", () => {
+    const now = new Date();
+    const tanggalBuat = now.toISOString().split("T")[0];
+    const jamBuat = now.toTimeString().split(" ")[0];
+    const fullWaktu = now.toLocaleString("id-ID");
+    const idUnik = "ID" + Math.floor(Math.random() * 90 + 10) + pad(now.getDate()) + Math.floor(Math.random() * 90 + 10) + pad(now.getMonth() + 1) + Math.floor(Math.random() * 90 + 10) + String(now.getFullYear()).slice(-2);
+
+    navigator.geolocation.getCurrentPosition((pos) => {
+      const { latitude, longitude } = pos.coords;
+
+      document.getElementById("extraInfo").innerHTML = `
+        <p>Tanggal Dibuat: ${tanggalBuat}</p>
+        <p>Waktu Dibuat: ${jamBuat}</p>
+        <p>Koordinat: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}</p>
+      `;
+      document.getElementById("mapFrame").src = `https://maps.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`;
+      document.getElementById("mapContainer").style.display = "block";
+
+      const dataPesanan = {
+        nama: data.nama,
+        wa: data.wa,
+        waktu: fullWaktu,
+        dibuat_tanggal: tanggalBuat,
+        dibuat_jam: jamBuat,
+        dibuat_full: fullWaktu,
+        tanggal: data.tanggal,
+        hari: data.hari,
+        barang: barangList.join(", "),
+        total: totalAkhir,
+        status: "Belum Lunas",
+        pesanan: data.pesanan,
+        lokasi: { latitude, longitude },
+        uid: user.uid
+      };
+
+      set(ref(db, "pesanan/" + idUnik), dataPesanan).then(() => {
+        sessionStorage.setItem("cekNotaID", idUnik);
+        const pesanWA = `https://wa.me/6285176871609?text=Halo%20saya%20${data.nama}%0ATanggal%20Sewa:%20${data.tanggal}%0AJumlah%20hari:%20${data.hari}%0APesanan:%0A${barangList.map((x, i) => `${i + 1}. ${x}`).join("%0A")}%0ATotal: Rp${totalAkhir.toLocaleString()}`;
+        window.location.href = pesanWA;
+      });
+    }, (err) => alert("Gagal mengambil lokasi: " + err.message));
+  });
+
+  window.ubahPesanan = () => window.location.href = "kq7x21m.html";
+
+  window.downloadNota = () => {
+    const container = document.getElementById("nota");
+    document.querySelector(".actions").style.display = "none";
+    html2canvas(container, { scale: 2, useCORS: true }).then(canvas => {
+      const link = document.createElement("a");
+      link.download = `nota-sewa-${data.nama}.jpg`;
+      link.href = canvas.toDataURL("image/jpeg", 1.0);
+      link.click();
+      document.querySelector(".actions").style.display = "flex";
+    });
+  };
+
+  window.showPopup = () => document.getElementById("popup").style.display = "flex";
+  window.closePopup = () => document.getElementById("popup").style.display = "none";
+});
+</script>
+
+</body>
+</html>

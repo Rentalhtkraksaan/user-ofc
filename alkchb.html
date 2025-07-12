@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rental HT Kraksaan - Sistem Masuk</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: #000;
+      overflow: hidden;
+    }
+
+    body.fade-out {
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.4;
+    }
+
+    .konten {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 2rem;
+      color: #ccc;
+    }
+
+    #selamat {
+      font-size: 2rem;
+      color: #fff;
+      margin-bottom: 2rem;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+
+    #selamat.tampil {
+      opacity: 1;
+    }
+
+    .kalimat {
+      font-size: 1.6rem;
+      opacity: 0;
+      transform: scale(0.9) blur(10px);
+      transition: all 1.2s ease;
+    }
+
+    .kalimat.active {
+      opacity: 1;
+      transform: scale(1) blur(0);
+    }
+
+    #misteriBtn {
+      margin-top: 2rem;
+      padding: 0.9rem 2.4rem;
+      font-size: 1rem;
+      background: white;
+      color: black;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(30px) scale(0.9);
+      transition: all 1.2s ease;
+      font-weight: bold;
+      -webkit-user-select: none;
+      user-select: none;
+      box-shadow: 0 0 20px rgba(255,255,255,0.1);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    #misteriBtn:focus,
+    #misteriBtn:active {
+      outline: none;
+      box-shadow: none;
+      background: white;
+    }
+
+    #misteriBtn.muncul {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    #skipBtn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      color: #888;
+      border: 1px solid #444;
+      padding: 6px 12px;
+      font-size: 0.9rem;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 5;
+      transition: 0.3s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    #skipBtn:hover {
+      color: white;
+      border-color: white;
+    }
+
+    #skipBtn:focus {
+      outline: none;
+    }
+
+    .meteor {
+      position: fixed;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      z-index: 1;
+      opacity: 0.9;
+      box-shadow:
+        0 0 10px rgba(255, 255, 255, 0.3),
+        0 0 20px rgba(200, 200, 200, 0.2);
+      animation: meteorFall 2.5s linear forwards;
+    }
+
+    @keyframes meteorFall {
+      to {
+        transform: translate(-200vw, 200vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Bintang Latar -->
+  <div class="stars" id="stars"></div>
+
+  <!-- Tombol Skip -->
+  <button id="skipBtn">Skip</button>
+
+  <!-- Konten Utama -->
+  <div class="konten">
+    <div id="selamat">Selamat datang</div>
+    <div id="kalimat" class="kalimat">...</div>
+    <button id="misteriBtn">MASUK</button>
+  </div>
+
+  <script>
+    const kalimatList = [
+      "Menginisialisasi sistem...",
+      "Mendeteksi koneksi...",
+      "Mengaktifkan Sistem",
+      "AI Diaktifkan",
+      "Sistem Aktif."
+    ];
+
+    const kalimatEl = document.getElementById('kalimat');
+    const btn = document.getElementById('misteriBtn');
+    const selamatEl = document.getElementById('selamat');
+    const skipBtn = document.getElementById('skipBtn');
+
+    let index = 0;
+    let intervalMeteor;
+    let kalimatSelesai = false;
+
+    function tampilkanKalimat() {
+      kalimatEl.textContent = kalimatList[index];
+      kalimatEl.classList.add('active');
+
+      setTimeout(() => {
+        kalimatEl.classList.remove('active');
+        index++;
+
+        if (index < kalimatList.length) {
+          setTimeout(tampilkanKalimat, 1000);
+        } else {
+          setTimeout(munculkanAkhir, 1000);
+        }
+      }, 2500);
+    }
+
+    function munculkanAkhir() {
+      btn.classList.add('muncul');
+      selamatEl.classList.add('tampil');
+      kalimatSelesai = true;
+    }
+
+    btn.addEventListener('click', () => {
+      document.body.classList.add('fade-out');
+      setTimeout(() => {
+        window.location.href = 'zp1r5474qacs.html';
+      }, 1000);
+    });
+
+    skipBtn.addEventListener('click', () => {
+      index = kalimatList.length;
+      kalimatEl.textContent = "";
+      munculkanAkhir();
+    });
+
+    function buatMeteor() {
+      const meteor = document.createElement('div');
+      meteor.classList.add('meteor');
+
+      const dariAtas = Math.random() < 0.5;
+
+      if (dariAtas) {
+        // Muncul dari atas
+        meteor.style.top = `${Math.random() * 30}px`;
+        meteor.style.right = `${Math.random() * 100}vw`;
+      } else {
+        // Muncul dari sisi kanan vertikal
+        meteor.style.top = `${Math.random() * 100}vh`;
+        meteor.style.right = `0px`;
+      }
+
+      document.body.appendChild(meteor);
+
+      setTimeout(() => {
+        meteor.remove();
+      }, 1200);
+    }
+
+    function mulaiMeteor() {
+      intervalMeteor = setInterval(() => {
+        const jumlah = Math.floor(Math.random() * 6) + 5;
+        for (let i = 0; i < jumlah; i++) {
+          setTimeout(() => {
+            buatMeteor();
+          }, i * 100);
+        }
+      }, 1000);
+    }
+
+    function buatBintangDiam(jumlah) {
+      const starsContainer = document.getElementById('stars');
+      for (let i = 0; i < jumlah; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        star.style.top = `${Math.random() * 100}vh`;
+        star.style.left = `${Math.random() * 100}vw`;
+        star.style.opacity = Math.random() * 0.6 + 0.2;
+        starsContainer.appendChild(star);
+      }
+    }
+
+    // Mulai animasi
+    tampilkanKalimat();
+    mulaiMeteor();
+    buatBintangDiam(80); // Jumlah bintang diam
+  </script>
+
+</body>
+</html>

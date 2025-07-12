@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simulasi Komunikasi HT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(to bottom, #000000, #111);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    html, body {
+  height: 100%;
+  margin:0;
+  overflow: hidden;
+  
+}
+
+body::-webkit-scrollbar {
+  width:0;
+  background: transparent;
+}
+* {
+  scrollbar-width: none;
+  -ms-overflow-style:none;
+}
+
+
+
+    .simulator {
+      background: #1a1a1a;
+      border-radius: 20px;
+      padding: 25px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.9);
+      text-align: center;
+      position: relative;
+        max-height: 100vh;
+  overflow: hidden;
+    }
+    * {
+  -webkit-tap-highlight-color: transparent;
+}
+
+    .robot-container {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .robot-image {
+      width: 100%;
+      border-radius: 16px;
+      object-fit: cover;
+    }
+
+    .balon {
+      position: absolute;
+      background: #2c2c2c;
+      padding: 8px 12px;
+      border-radius: 12px;
+      max-width: 240px;
+      font-size: 14px;
+      border: 1px solid #444;
+      display: none;
+      z-index: 10;
+      text-align: left;
+    }
+
+    #outputBalon1 {
+      top: 270px;
+      left: 10px;
+    }
+
+    #outputBalon2 {
+      top: 2px;
+      right: 15px;
+    }
+
+    #outputBalon2::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 80%;
+      transform: translateX(-50%);
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 8px solid #2c2c2c;
+    }
+
+    h2 {
+      margin: 15px 0 18px;
+    }
+
+    .row {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .row-half {
+      display: flex;
+      gap: 10px;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      background-color: #2b2b2b;
+      color: white;
+      box-shadow: inset 0 0 5px rgba(255,255,255,0.05);
+      transition: box-shadow 0.3s;
+    }
+
+    input:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(255,255,255,0.3), 0 0 20px rgba(200,200,200,0.2);
+}
+
+    select option {
+      background-color: #1f1f1f;
+      color: white;
+    }
+
+    .dropdown-scroll {
+      max-height: 120px;
+      overflow-y: auto;
+    }
+
+    .range-info {
+      text-align: left;
+      font-size: 13px;
+      color: #aaa;
+      padding: 5px 0 10px;
+    }
+
+    .error-message {
+      margin-top: 10px;
+      color: #ff5555;
+      font-size: 14px;
+      min-height: 20px;
+    }
+    button {
+  margin-top: 10px;
+  padding: 12px;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  background-color: black;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+  -webkit-tap-highlight-color: transparent; /* HILANGKAN HIGHLIGHT BIRU */
+  outline: none; /* HILANGKAN GARIS OUTLINE */
+}
+
+button:hover {
+  background-color: #222;
+}
+
+    button:hover {
+      background-color: #222;
+    }
+    .tombol-balik {
+  position: fixed;
+  bottom: 15px;
+  left: 15px;
+  background: linear-gradient(135deg, #444, #222);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  text-decoration: none;
+  z-index: 999;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.tombol-balik:hover {
+  background: linear-gradient(135deg, #666, #333);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+}
+  </style>
+</head>
+<body>
+  <a href="a128nrur98.html" class="tombol-balik">Balik</a>
+  <div class="simulator">
+    <div class="robot-container">
+      <img src="kkcheuje.jpg" alt="Robot Neo" class="robot-image">
+      <div class="balon" id="outputBalon1"></div>
+      <div class="balon" id="outputBalon2"></div>
+    </div>
+
+    <h3>Simulasi Komunikasi HT</h3>
+
+    <div class="row">
+      <div class="row-half">
+        <select id="bandSelect" onchange="updateRange()">
+          <option value="UHF">UHF</option>
+          <option value="VHF">VHF</option>
+        </select>
+        <div class="range-info" id="rangeInfo">Range: 400.000 – 520.000 MHz</div>
+      </div>
+
+      <div class="row-half">
+        <input type="number" id="freq1" placeholder="Frekuensi Robot 1">
+        <input type="number" id="freq2" placeholder="Frekuensi Neo">
+      </div>
+
+      <select id="pesan1" size="4" class="dropdown-scroll">
+        <option value="">-- Pilih Pesan --</option>
+        <option value="hai">hai</option>
+        <option value="apa kabar">apa kabar</option>
+        <option value="kamu siapa">kamu siapa</option>
+        <option value="apa tugasmu">Apa tugasmu?</option>
+        <option value="gimana hari ini">gimana hari ini</option>
+        <option value="cuaca hari ini">cuaca </option>
+        <option value="test 123">test 123</option>
+        <option value="sinyal bagus?">sinyal bagus?</option>
+        <option value="makasih">makasih</option>
+      </select>
+
+      <button onclick="prosesPesan()">Kirim</button>
+
+      <div class="error-message" id="errorMsg"></div>
+    </div>
+  </div>
+
+  <script>
+    const range = {
+      UHF: { min: 400, max: 520 },
+      VHF: { min: 136, max: 174 }
+    };
+
+    const bandSelect = document.getElementById('bandSelect');
+    const freq1Input = document.getElementById('freq1');
+    const freq2Input = document.getElementById('freq2');
+    const pesanSelect = document.getElementById('pesan1');
+    const balon1 = document.getElementById('outputBalon1');
+    const balon2 = document.getElementById('outputBalon2');
+    const error = document.getElementById('errorMsg');
+
+    function updateRange() {
+      const band = bandSelect.value;
+      document.getElementById('rangeInfo').innerText =
+        `Range: ${range[band].min}.000 – ${range[band].max}.000 MHz`;
+    }
+
+    function prosesPesan() {
+      const band = bandSelect.value;
+      const freq1 = parseFloat(freq1Input.value);
+      const freq2 = parseFloat(freq2Input.value);
+      const pesan = pesanSelect.value.trim().toLowerCase();
+
+      error.innerText = "";
+      balon1.style.display = 'none';
+      balon2.style.display = 'none';
+
+      if (!pesan || isNaN(freq1) || isNaN(freq2)) {
+        error.innerText = "Harap isi semua kolom dengan benar.";
+        return;
+      }
+
+      if (freq1 < range[band].min || freq1 > range[band].max ||
+          freq2 < range[band].min || freq2 > range[band].max) {
+        error.innerText = `Frekuensi harus dalam range ${range[band].min} – ${range[band].max} MHz.`;
+        return;
+      }
+
+      if (freq1 !== freq2) {
+        balon2.innerText = "Frekuensi tidak cocok!";
+        balon2.style.display = 'block';
+        return;
+      }
+
+      balon1.innerText = `User: ${pesan}`;
+      balon1.style.display = 'block';
+      balon2.innerText = "Neo: Menerima pesan...";
+      balon2.style.display = 'block';
+
+      setTimeout(() => {
+        let balasan = "";
+
+        switch(pesan) {
+          case "hai":
+            balasan = "Hai! Selamat datang di rental HT kraksaan 🤝";
+            break;
+            case "apa tugasmu":
+            balasan = "Aku yang menggerakkan sistem ini semua";
+            break;
+          case "apa kabar":
+            balasan = "Aku baik. Kamu gimana?";
+            break;
+          case "cuaca hari ini":
+            balasan = "sedikit mendung,tetap jaga kesehatan ya!!";
+            break;
+            case "makasih":
+            balasan = "Sama-sama! Neo selalu standby ✨";
+            break;
+          case "gimana hari ini":
+            balasan = "Aku happy,karena hari pertama launching";
+            break;
+          case "kamu siapa":
+            balasan = "Aku Neo, Asisten pintar Rental ht kraksaan";
+            break;
+          case "test 123":
+            balasan = "Sinyal masuk. Komunikasi aman 📡";
+            break;
+          case "sinyal bagus?":
+            balasan = "Bagus banget, suara kamu jelas 😎";
+            break;
+          default:
+            balasan = "Maaf, Neo belum paham pesan itu.";
+        }
+
+        balon2.innerText = `Neo: ${balasan}`;
+      }, 2000);
+    }
+  </script>
+
+</body>
+</html>

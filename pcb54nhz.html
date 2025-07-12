@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Setting Frekuensi HT</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #1f1f1f, #2d2d2d);
+      color: #e0e0e0;
+    }
+    .glass {
+      backdrop-filter: blur(12px);
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    input[type="radio"],
+    input[type="number"] {
+      accent-color: #666;
+    }
+    input[type="number"] {
+      background: transparent;
+    }
+
+    /* Getaran halus untuk ikon peringatan */
+    .vibrate {
+      display: inline-block;
+      animation: vibrate 1s infinite;
+    }
+
+    @keyframes vibrate {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-1px); }
+      50% { transform: translateX(1px); }
+      75% { transform: translateX(-1px); }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center px-4">
+  <div class="max-w-xl w-full glass shadow-xl rounded-xl p-6">
+    <h1 class="text-2xl font-bold text-center mb-4 text-white flex items-center justify-center gap-2">
+      <i data-lucide="radio" class="w-6 h-6 text-white"></i> Setting Frekuensi HT
+    </h1>
+
+    <p class="text-sm text-gray-300 mb-6 text-justify">
+      <span class="vibrate">⚠️</span>
+      <strong>Penting:</strong> HT dengan frekuensi berbeda tidak bisa saling terhubung. Pastikan semua HT disetting ke frekuensi yang sama agar bisa digunakan bersama dalam satu tim.<br> berikut biaya jasa setting frekuensi
+    </p>
+
+    <div class="space-y-4">
+      <p class="font-semibold">HT siapa yang ingin di ubah?</p>
+      <div class="flex space-x-6">
+        <label><input type="radio" name="punyaHT" value="pelanggan" onchange="toggleInputFrekuensi()"> Saya Sendiri</label>
+        <label><input type="radio" name="punyaHT" value="admin" onchange="toggleInputFrekuensi()"> Dari Admin</label>
+      </div>
+
+      <!-- Pelanggan -->
+      <div id="inputFrekuensiPelanggan" class="hidden">
+        <label class="block mb-1 mt-2">Jumlah HT (Sendiri):</label>
+        <input type="number" inputmode="numeric" pattern="[0-9]*"
+               id="jumlahHTPelanggan"
+               class="border border-gray-600 bg-transparent text-white p-2 rounded w-32"
+               min="1"
+               oninput="hitungBiayaFrekuensi()">
+        <p class="text-sm text-gray-400">Rp7.000 / unit</p>
+      </div>
+
+      <!-- Admin -->
+      <div id="inputFrekuensiAdmin" class="hidden">
+        <label class="block mb-1 mt-2">Jumlah HT (Admin):</label>
+        <input type="number" inputmode="numeric" pattern="[0-9]*"
+               id="jumlahHTAdmin"
+               class="border border-gray-600 bg-transparent text-white p-2 rounded w-32"
+               min="1"
+               oninput="hitungBiayaFrekuensi()">
+        <p class="text-sm text-gray-400">Rp10.000 / unit</p>
+      </div>
+
+      <!-- Hasil -->
+      <div id="hasilFrekuensi" class="font-semibold text-green-400 hidden"></div>
+    </div>
+  </div>
+
+  <!-- Tombol Balik -->
+  <div class="fixed bottom-4 left-4">
+    <a href="a128nrur98.html" class="px-4 py-2 rounded-lg shadow glass text-white font-semibold hover:bg-white hover:text-black transition flex items-center gap-2">
+       BALIK
+    </a>
+  </div>
+
+  <!-- Script -->
+  <script>
+    function toggleInputFrekuensi() {
+      const punya = document.querySelector('input[name="punyaHT"]:checked')?.value;
+      document.getElementById("inputFrekuensiPelanggan").classList.add("hidden");
+      document.getElementById("inputFrekuensiAdmin").classList.add("hidden");
+      document.getElementById("hasilFrekuensi").classList.add("hidden");
+      document.getElementById("hasilFrekuensi").innerHTML = '';
+
+      if (punya === "pelanggan") {
+        document.getElementById("inputFrekuensiPelanggan").classList.remove("hidden");
+        document.getElementById("jumlahHTPelanggan").value = '';
+      } else if (punya === "admin") {
+        document.getElementById("inputFrekuensiAdmin").classList.remove("hidden");
+        document.getElementById("jumlahHTAdmin").value = '';
+      }
+    }
+
+    function hitungBiayaFrekuensi() {
+      const hasil = document.getElementById("hasilFrekuensi");
+      const punya = document.querySelector('input[name="punyaHT"]:checked')?.value;
+
+      let jumlah = 0;
+      let total = 0;
+
+      if (punya === "pelanggan") {
+        jumlah = parseInt(document.getElementById("jumlahHTPelanggan").value) || 0;
+        total = jumlah * 7000;
+      } else if (punya === "admin") {
+        jumlah = parseInt(document.getElementById("jumlahHTAdmin").value) || 0;
+        total = jumlah * 10000;
+      }
+
+      if (jumlah > 0) {
+        hasil.classList.remove("hidden");
+        hasil.innerHTML = `Biaya Setting Frekuensi: Rp ${total.toLocaleString("id-ID")}`;
+      } else {
+        hasil.classList.add("hidden");
+        hasil.innerHTML = '';
+      }
+    }
+
+    lucide.createIcons();
+  </script>
+</body>
+</html>

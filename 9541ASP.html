@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gear Presisi Mini</title>
+  <style>
+    body {
+      background: transparent;
+      margin: 0;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .gear-wrapper {
+      position: relative;
+      width: 180px;
+      height: 180px;
+    }
+
+    svg {
+      position: absolute;
+      width: 90px;
+      height: 90px;
+    }
+
+    .gear1 { left: 45px; top: 0; animation: spin 4s linear infinite; }
+    .gear2 { left: 0; top: 45px; animation: spin-reverse 4s linear infinite; }
+    .gear3 { left: 90px; top: 45px; animation: spin-reverse 4s linear infinite; }
+    .gear4 { left: 45px; top: 90px; animation: spin 4s linear infinite; }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes spin-reverse {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(-360deg); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="gear-wrapper">
+  <!-- Gear 1 -->
+  <svg class="gear1" viewBox="-100 -100 200 200">
+    <defs>
+      <linearGradient id="metal1" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#eee"/>
+        <stop offset="50%" stop-color="#aaa"/>
+        <stop offset="100%" stop-color="#666"/>
+      </linearGradient>
+      <path id="blade1" d="M0,0 L5,-52 L0,-70 L-5,-52 Z"/>
+    </defs>
+    <g fill="url(#metal1)" stroke="#ccc" stroke-width="0.6">
+      <!-- 10 pisau -->
+      <use href="#blade1" transform="rotate(0)"/>
+      <use href="#blade1" transform="rotate(36)"/>
+      <use href="#blade1" transform="rotate(72)"/>
+      <use href="#blade1" transform="rotate(108)"/>
+      <use href="#blade1" transform="rotate(144)"/>
+      <use href="#blade1" transform="rotate(180)"/>
+      <use href="#blade1" transform="rotate(216)"/>
+      <use href="#blade1" transform="rotate(252)"/>
+      <use href="#blade1" transform="rotate(288)"/>
+      <use href="#blade1" transform="rotate(324)"/>
+    </g>
+    <circle cx="0" cy="0" r="33" fill="#222" stroke="#888" stroke-width="2"/>
+  </svg>
+
+  <!-- Gear 2 -->
+  <svg class="gear2" viewBox="-100 -100 200 200">
+    <defs>
+      <linearGradient id="metal2" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#eee"/>
+        <stop offset="50%" stop-color="#aaa"/>
+        <stop offset="100%" stop-color="#666"/>
+      </linearGradient>
+      <path id="blade2" d="M0,0 L5,-52 L0,-70 L-5,-52 Z"/>
+    </defs>
+    <g fill="url(#metal2)" stroke="#ccc" stroke-width="0.6">
+      <use href="#blade2" transform="rotate(18)"/>
+      <use href="#blade2" transform="rotate(54)"/>
+      <use href="#blade2" transform="rotate(90)"/>
+      <use href="#blade2" transform="rotate(126)"/>
+      <use href="#blade2" transform="rotate(162)"/>
+      <use href="#blade2" transform="rotate(198)"/>
+      <use href="#blade2" transform="rotate(234)"/>
+      <use href="#blade2" transform="rotate(270)"/>
+      <use href="#blade2" transform="rotate(306)"/>
+      <use href="#blade2" transform="rotate(342)"/>
+    </g>
+    <circle cx="0" cy="0" r="33" fill="#222" stroke="#888" stroke-width="2"/>
+  </svg>
+
+  <!-- Gear 3 -->
+  <svg class="gear3" viewBox="-100 -100 200 200">
+    <defs>
+      <linearGradient id="metal3" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#eee"/>
+        <stop offset="50%" stop-color="#aaa"/>
+        <stop offset="100%" stop-color="#666"/>
+      </linearGradient>
+      <path id="blade3" d="M0,0 L5,-52 L0,-70 L-5,-52 Z"/>
+    </defs>
+    <g fill="url(#metal3)" stroke="#ccc" stroke-width="0.6">
+      <use href="#blade3" transform="rotate(18)"/>
+      <use href="#blade3" transform="rotate(54)"/>
+      <use href="#blade3" transform="rotate(90)"/>
+      <use href="#blade3" transform="rotate(126)"/>
+      <use href="#blade3" transform="rotate(162)"/>
+      <use href="#blade3" transform="rotate(198)"/>
+      <use href="#blade3" transform="rotate(234)"/>
+      <use href="#blade3" transform="rotate(270)"/>
+      <use href="#blade3" transform="rotate(306)"/>
+      <use href="#blade3" transform="rotate(342)"/>
+    </g>
+    <circle cx="0" cy="0" r="33" fill="#222" stroke="#888" stroke-width="2"/>
+  </svg>
+
+  <!-- Gear 4 -->
+  <svg class="gear4" viewBox="-100 -100 200 200">
+    <defs>
+      <linearGradient id="metal4" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#eee"/>
+        <stop offset="50%" stop-color="#aaa"/>
+        <stop offset="100%" stop-color="#666"/>
+      </linearGradient>
+      <path id="blade4" d="M0,0 L5,-52 L0,-70 L-5,-52 Z"/>
+    </defs>
+    <g fill="url(#metal4)" stroke="#ccc" stroke-width="0.6">
+      <use href="#blade4" transform="rotate(0)"/>
+      <use href="#blade4" transform="rotate(36)"/>
+      <use href="#blade4" transform="rotate(72)"/>
+      <use href="#blade4" transform="rotate(108)"/>
+      <use href="#blade4" transform="rotate(144)"/>
+      <use href="#blade4" transform="rotate(180)"/>
+      <use href="#blade4" transform="rotate(216)"/>
+      <use href="#blade4" transform="rotate(252)"/>
+      <use href="#blade4" transform="rotate(288)"/>
+      <use href="#blade4" transform="rotate(324)"/>
+    </g>
+    <circle cx="0" cy="0" r="33" fill="#222" stroke="#888" stroke-width="2"/>
+  </svg>
+
+</div>
+
+</body>
+</html>

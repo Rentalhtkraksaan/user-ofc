@@ -68,7 +68,7 @@
                class="border border-gray-600 bg-transparent text-white p-2 rounded w-32"
                min="1"
                oninput="hitungBiayaFrekuensi()">
-        <p class="text-sm text-gray-400">Rp7.000 / unit</p>
+        <p class="text-sm text-gray-400">Rp10.000 / unit</p>
       </div>
 
       <!-- Admin -->
@@ -79,7 +79,7 @@
                class="border border-gray-600 bg-transparent text-white p-2 rounded w-32"
                min="1"
                oninput="hitungBiayaFrekuensi()">
-        <p class="text-sm text-gray-400">Rp10.000 / unit</p>
+        <p class="text-sm text-gray-400">Rp15.000 / unit</p>
       </div>
 
       <!-- Hasil -->
@@ -121,10 +121,10 @@
 
       if (punya === "pelanggan") {
         jumlah = parseInt(document.getElementById("jumlahHTPelanggan").value) || 0;
-        total = jumlah * 7000;
+        total = jumlah * 10000;
       } else if (punya === "admin") {
         jumlah = parseInt(document.getElementById("jumlahHTAdmin").value) || 0;
-        total = jumlah * 10000;
+        total = jumlah * 15000;
       }
 
       if (jumlah > 0) {

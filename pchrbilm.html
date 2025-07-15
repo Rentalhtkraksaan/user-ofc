@@ -167,7 +167,7 @@
     const hasilBox = document.getElementById("hasilJarak");
     if (!jenis || latestJarak === 0) return;
 
-    let biaya = jenis.value === "antar" ? latestJarak * 5000 : latestJarak * 2 * 5000;
+    let biaya = jenis.value === "antar" ? latestJarak * 7000 : latestJarak * 2 * 7000;
     hasilBox.classList.remove("hidden");
     hasilBox.innerHTML = `Jarak: ±${latestJarak.toFixed(2)} km<br>Biaya: Rp ${Math.round(biaya).toLocaleString("id-ID")}`;
   };

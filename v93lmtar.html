@@ -64,67 +64,20 @@
     <div class="mb-6">
       <h2 class="font-semibold text-lg mb-1">🚚 Layanan Tambahan:</h2>
       <ul class="list-disc ml-6">
-        <li>Antar saja: Rp 5.000/km</li>
-        <li>Antar-jemput: Rp 10.000/km</li>
+        <li>Antar saja: Rp 7.000/km</li>
+        <li>Antar-jemput: Rp 14.000/km</li>
         <li>Setting frekuensi:
           <ul class="list-disc ml-6 mt-1 text-sm text-gray-700">
-            <li>HT milik pelanggan: Rp 8.000/unit</li>
-            <li>HT dari kami: Rp 10.000/unit</li>
+            <li>HT milik pelanggan: Rp 10.000/unit</li>
+            <li>HT dari kami: Rp 15.000/unit</li>
           </ul>
         </li>
       </ul>
 
       <!-- Cek Jarak dan Pengantaran -->
-      <div class="mt-6 space-y-3">
-        <label class="block font-semibold mb-1">📍 Cek Jarak Otomatis dari Lokasi Anda:</label>
-        <button onclick="cekJarakLengkap()" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded">
-          Cek Jarak Antar
-        </button>
-        <div id="hasilJarak" class="mt-3 text-sm font-semibold text-green-700 hidden leading-relaxed"></div>
-
-        <div>
-          <label class="block font-semibold mb-1">🚚 Gunakan Layanan Pengantaran:</label>
-          <div class="space-x-4 mb-2">
-            <label><input type="radio" name="layanan" value="ya" onclick="togglePilihanLayanan(true)"> Ya</label>
-            <label><input type="radio" name="layanan" value="tidak" onclick="togglePilihanLayanan(false)"> Tidak</label>
-          </div>
-          <div id="pilihanLayanan" class="hidden space-x-4">
-            <label><input type="radio" name="jenisLayanan" value="antar" onchange="updateBiaya()"> Antar Saja</label>
-            <label><input type="radio" name="jenisLayanan" value="antarjemput" onchange="updateBiaya()"> Antar-Jemput</label>
-          </div>
-        </div>
-      </div>
-
+      
       <!-- Setting Frekuensi -->
-      <div class="mt-6 space-y-3">
-        <label class="block font-semibold mb-1">🔧 Perlu Setting Frekuensi?</label>
-        <div class="space-x-4 mb-2">
-          <label><input type="radio" name="settingFrekuensi" value="ya" onclick="toggleFrekuensi(true)"> Ya</label>
-          <label><input type="radio" name="settingFrekuensi" value="tidak" onclick="toggleFrekuensi(false)"> Tidak</label>
-        </div>
-
-        <div id="opsiFrekuensi" class="hidden space-y-3">
-          <label class="block">Siapa yang punya HT?</label>
-          <div class="space-x-4 mb-2">
-            <label><input type="radio" name="punyaHT" value="pelanggan" onchange="toggleInputFrekuensi()"> Saya Sendiri</label>
-            <label><input type="radio" name="punyaHT" value="admin" onchange="toggleInputFrekuensi()"> Dari Admin</label>
-          </div>
-
-          <div id="inputFrekuensiPelanggan" class="hidden">
-            <label class="block mb-1">Jumlah HT (Sendiri):</label>
-            <input type="number" id="jumlahHTPelanggan" class="border p-1 rounded w-32" min="1" oninput="hitungBiayaFrekuensi()">
-            <p class="text-sm text-gray-500">Rp8.000 / unit</p>
-          </div>
-
-          <div id="inputFrekuensiAdmin" class="hidden">
-            <label class="block mb-1">Jumlah HT (Admin):</label>
-            <input type="number" id="jumlahHTAdmin" class="border p-1 rounded w-32" min="1" oninput="hitungBiayaFrekuensi()">
-            <p class="text-sm text-gray-500">Rp10.000 / unit</p>
-          </div>
-
-          <div id="hasilFrekuensi" class="font-semibold text-green-700 hidden"></div>
-        </div>
-      </div>
+      
     </div>
 
     <div class="mb-2">

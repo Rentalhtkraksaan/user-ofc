@@ -169,7 +169,7 @@
       setTimeout(() => {
         lanjutBtn.disabled = false;
       }, 1);
-      await new Promise(r => setTimeout(r, 4000));
+      await new Promise(r => setTimeout(r, 6500));
       teksTampil.textContent = "";
       await new Promise(r => setTimeout(r, 1000));
       index = (index + 1) % kalimatList.length;
@@ -178,9 +178,6 @@
 
     tampilkanKalimat();
   </script>
-
-  <!-- Firebase -->
-  <!-- ... semua tag <head> dan <body> seperti punyamu sebelumnya tetap sama ... -->
 
 <!-- Firebase -->
  <script type="module">

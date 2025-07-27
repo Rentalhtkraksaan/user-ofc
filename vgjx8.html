@@ -11,9 +11,9 @@
       margin: 0; padding: 20px;
       background: #f9f9f9;
     }
-      button, a {
-    -webkit-tap-highlight-color: transparent;
-  }
+    button, a {
+      -webkit-tap-highlight-color: transparent;
+    }
     .container {
       background: #fff;
       border-radius: 12px;
@@ -156,7 +156,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebas
 import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 
-// Firebase config kamu
 const firebaseConfig = {
   apiKey: "AIzaSyBiNwS8pU3D6iF5gTmM95kzMIy-tm_sTIY",
   authDomain: "rentalhtkraksaan-61397.firebaseapp.com",
@@ -171,18 +170,15 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getDatabase(app);
 
-// Login Anonymous dulu
 signInAnonymously(auth).then(() => {
   console.log("Logged in anonymously");
 }).catch((error) => {
   alert("Gagal login anon: " + error.message);
 });
 
-// Tunggu sampai auth siap
 onAuthStateChanged(auth, (user) => {
   if (!user) return;
 
-  // Data dari localStorage
   const data = JSON.parse(localStorage.getItem("formPemesanan") || "{}");
   if (!data.nama) location.href = "kq7x21m.html";
 
@@ -240,6 +236,18 @@ onAuthStateChanged(auth, (user) => {
       document.getElementById("mapFrame").src = `https://maps.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`;
       document.getElementById("mapContainer").style.display = "block";
 
+      lanjutkanKirim({ latitude, longitude });
+
+    }, () => {
+      document.getElementById("extraInfo").innerHTML = `
+        <p>Tanggal Dibuat: ${tanggalBuat}</p>
+        <p>Waktu Dibuat: ${jamBuat}</p>
+        <p style="color: red;">Koordinat tidak tersedia</p>
+      `;
+      lanjutkanKirim(null);
+    });
+
+    function lanjutkanKirim(lokasi) {
       const dataPesanan = {
         nama: data.nama,
         wa: data.wa,
@@ -253,7 +261,7 @@ onAuthStateChanged(auth, (user) => {
         total: totalAkhir,
         status: "Belum Lunas",
         pesanan: data.pesanan,
-        lokasi: { latitude, longitude },
+        lokasi: lokasi || { latitude: null, longitude: null },
         uid: user.uid
       };
 
@@ -262,7 +270,7 @@ onAuthStateChanged(auth, (user) => {
         const pesanWA = `https://wa.me/6285176871609?text=Halo%20saya%20${data.nama}%0ATanggal%20Sewa:%20${data.tanggal}%0AJumlah%20hari:%20${data.hari}%0APesanan:%0A${barangList.map((x, i) => `${i + 1}. ${x}`).join("%0A")}%0ATotal: Rp${totalAkhir.toLocaleString()}`;
         window.location.href = pesanWA;
       });
-    }, (err) => alert("Gagal mengambil lokasi: " + err.message));
+    }
   });
 
   window.ubahPesanan = () => window.location.href = "kq7x21m.html";
@@ -283,6 +291,5 @@ onAuthStateChanged(auth, (user) => {
   window.closePopup = () => document.getElementById("popup").style.display = "none";
 });
 </script>
-
 </body>
 </html>

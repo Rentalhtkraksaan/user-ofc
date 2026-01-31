@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tagihan Woldy - Update 30 Jan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Quicksand', sans-serif; background: #0f172a; color: #fff; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { width: 90%; max-width: 380px; background: #1e293b; padding: 30px; border-radius: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); text-align: center; border: 1px solid #334155; }
+        .header h1 { font-family: 'Montserrat', sans-serif; font-size: 1.1rem; color: #38bdf8; margin-bottom: 20px; letter-spacing: 1px; }
+        
+        .profile { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px dashed #475569; }
+        .name { font-weight: 900; font-size: 1.3rem; display: block; color: #f1f5f9; }
+        .phone { font-size: 0.85rem; color: #94a3b8; display: block; margin-top: 5px; }
+        
+        .time-counter { background: #334155; padding: 15px; border-radius: 15px; margin-bottom: 20px; }
+        .time-label { font-size: 0.65rem; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; color: #94a3b8; }
+        #timer { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.1rem; color: #fbbf24; }
+        
+        .bill-details { text-align: left; margin-bottom: 20px; }
+        .row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.85rem; padding: 5px 0; border-bottom: 1px solid #2d3748; }
+        .running { color: #f87171; font-family: 'Montserrat', sans-serif; font-weight: bold; }
+        
+        .total-pay { background: #f8fafc; color: #0f172a; padding: 20px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .total-pay small { font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px; color: #64748b; }
+        .total-pay div { font-family: 'Montserrat', sans-serif; font-size: 1.8rem; font-weight: 900; }
+        
+        /* Tombol-Tombol */
+        .btn-wa { background: #22c55e; color: white; text-decoration: none; display: block; padding: 14px; border-radius: 12px; font-weight: bold; margin-bottom: 12px; font-size: 0.9rem; transition: 0.3s; }
+        .btn-wa:hover { background: #16a34a; transform: translateY(-2px); }
+        
+        .btn-snk { background: transparent; color: #38bdf8; border: 1px solid #38bdf8; text-decoration: none; display: block; padding: 10px; border-radius: 12px; font-weight: 600; margin-bottom: 15px; font-size: 0.8rem; transition: 0.3s; }
+        .btn-snk:hover { background: rgba(56, 189, 248, 0.1); }
+        
+        .btn-back { color: #64748b; text-decoration: none; font-size: 0.75rem; display: inline-block; margin-top: 5px; }
+        
+        .catatan-box { background: rgba(248, 113, 113, 0.1); border-left: 4px solid #f87171; padding: 12px; text-align: left; margin-top: 20px; border-radius: 4px; }
+        .catatan-box p { font-size: 0.75rem; color: #e2e8f0; margin: 0; line-height: 1.5; }
+        .highlight-date { color: #fbbf24; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>INVOICE KETERLAMBATAN</h1>
+    </div>
+
+    <div class="profile">
+        <span class="name">WOLDY</span>
+        <span class="phone">+62 877-5565-6074</span>
+        <span class="phone" style="font-size: 0.7rem; opacity: 0.8;">Peminjam Unit #25</span>
+    </div>
+
+    <div class="time-counter">
+        <div class="time-label">Waktu Argo Sewa Dimulai</div>
+        <div id="timer">Memuat Data...</div>
+    </div>
+
+    <div class="bill-details">
+        <div class="row">
+            <span>Denda Kehilangan Unit</span>
+            <span>Rp 170.000</span>
+        </div>
+        <div class="row">
+            <span>Biaya Sewa Berjalan</span>
+            <span id="running-sewa" class="running">Rp 0</span>
+        </div>
+    </div>
+
+    <div class="total-pay">
+        <small>Total yang harus dibayar</small>
+        <div id="total-all">Rp 170.000</div>
+    </div>
+
+    <a href="https://wa.me/6285176871609?text=Halo%20Admin,%20saya%20Woldy%20ingin%20konfirmasi%20pembayaran%20tagihan%20unit%20#25" class="btn-wa">Konfirmasi Pembayaran</a>
+    
+    <a href="https://rentalhtkraksaan.vercel.app/v93lmtar.html" target="_blank" class="btn-snk">Lihat Syarat & Ketentuan</a>
+    
+    <a href="https://rentalhtkraksaan.vercel.app/zp1r5474qacs.html" class="btn-back">Kembali ke Beranda</a>
+
+    <div class="catatan-box">
+        <p><strong>Informasi Penting:</strong><br>
+        Unit belum kembali (Status: Hilang). Sesuai kesepakatan, <span class="highlight-date">Biaya Sewa Berjalan (20rb/hari) telah dimulai sejak tanggal 30 Januari 2026 pukul 00:00 WIB</span>.</p>
+    </div>
+</div>
+
+<script>
+    // Konfigurasi Billing
+    const deadline = new Date("2026-01-30T00:00:00").getTime();
+    const dendaUnit = 170000;
+    const rateHarian = 20000;
+
+    function updateBilling() {
+        const skrg = new Date().getTime();
+        const selisih = skrg - deadline;
+
+        // Jika waktu belum mencapai deadline
+        if (selisih < 0) {
+            document.getElementById("timer").innerHTML = "Mulai 30 Jan, 00:00";
+            document.getElementById("running-sewa").innerHTML = "Rp 0,00";
+            document.getElementById("total-all").innerHTML = "Rp 170.000";
+            return;
+        }
+
+        // Kalkulasi Waktu
+        const hari = Math.floor(selisih / (1000 * 60 * 60 * 24));
+        const jam = Math.floor((selisih % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const mnt = Math.floor((selisih % (1000 * 60 * 60)) / (1000 * 60));
+        const dtk = Math.floor((selisih % (1000 * 60)) / 1000);
+
+        document.getElementById("timer").innerHTML = 
+            `${hari} Hari, ${jam.toString().padStart(2,'0')}:${mnt.toString().padStart(2,'0')}:${dtk.toString().padStart(2,'0')}`;
+
+        // Kalkulasi Biaya (Argo berjalan setiap detik)
+        const biayaSewa = (selisih / (1000 * 60 * 60 * 24)) * rateHarian;
+        const total = dendaUnit + biayaSewa;
+
+        // Update Tampilan (Format Rupiah)
+        document.getElementById("running-sewa").innerHTML = "Rp " + biayaSewa.toLocaleString('id-ID', {minimumFractionDigits: 2});
+        document.getElementById("total-all").innerHTML = "Rp " + Math.floor(total).toLocaleString('id-ID');
+    }
+
+    // Jalankan update setiap detik
+    setInterval(updateBilling, 1000);
+    updateBilling();
+</script>
+
+</body>
+</html>

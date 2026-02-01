@@ -32,10 +32,16 @@
         #denda-box small { font-weight: 800; text-transform: uppercase; font-size: 0.65rem; color: #64748b; }
         #denda-box div { font-family: 'Montserrat', sans-serif; font-size: 1.8rem; font-weight: 900; }
         
+        /* Tombol Styles */
         .btn-wa { background: #22c55e; color: white; text-decoration: none; display: block; padding: 14px; border-radius: 12px; font-weight: bold; margin-bottom: 12px; font-size: 0.9rem; transition: background 0.3s; }
         .btn-wa:hover { background: #1a9e4b; }
+        
+        /* Tombol Instagram Baru */
+        .btn-ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; text-decoration: none; display: block; padding: 14px; border-radius: 12px; font-weight: bold; margin-bottom: 12px; font-size: 0.9rem; transition: opacity 0.3s; }
+        .btn-ig:hover { opacity: 0.9; }
+
         .btn-snk { background: transparent; color: #38bdf8; border: 1px solid #38bdf8; text-decoration: none; display: block; padding: 10px; border-radius: 12px; font-weight: 600; margin-bottom: 15px; font-size: 0.8rem; }
-        .btn-back { color: #64748b; text-decoration: none; font-size: 0.75rem; }
+        .btn-back { color: #64748b; text-decoration: none; font-size: 0.75rem; display: block; margin-top: 10px; }
         
         .catatan-box { background: rgba(251, 191, 36, 0.05); border-left: 4px solid #fbbf24; padding: 12px; text-align: left; margin-top: 20px; border-radius: 4px; }
         .catatan-box p { font-size: 0.72rem; color: #cbd5e1; margin: 0; line-height: 1.5; }
@@ -86,6 +92,8 @@
     </div>
 
     <a href="#" id="wa-link" target="_blank" class="btn-wa">Konfirmasi Selesai Sewa</a>
+    <a href="https://www.instagram.com/rentalhtkraksaan" target="_blank" class="btn-ig">Follow Instagram Kami</a>
+    
     <a href="https://rentalhtkraksaan.vercel.app/v93lmtar.html" target="_blank" class="btn-snk">Lihat Syarat & Ketentuan</a>
     <a href="https://rentalhtkraksaan.vercel.app/zp1r5474qacs.html" class="btn-back">Kembali ke Beranda</a>
 
@@ -108,9 +116,8 @@
         let denda = 0;
         let jamTerlambat = 0;
         let h = 0, m = 0, s = 0;
-        
+
         if (selisih > 0) {
-            // MODE TERLAMBAT
             document.getElementById("status-tag").innerHTML = "OVERTIME";
             document.getElementById("status-tag").style.background = "#f87171";
             document.getElementById("timer-label").innerHTML = "Keterlambatan";
@@ -119,30 +126,12 @@
             
             jamTerlambat = selisih / (1000 * 60 * 60);
 
-            // LOGIKA FAST PROGRESS
             if (jamTerlambat <= 6) {
-                if (jamTerlambat <= 1) {
-                    denda = jamTerlambat * (biayaDasar / 2);
-                } else {
-                    denda = biayaDasar / 2;
-                }
-            } 
-            else if (jamTerlambat <= 12) {
-                if (jamTerlambat <= 7) {
-                    let progressFase2 = (jamTerlambat - 6); 
-                    denda = (biayaDasar / 2) + (progressFase2 * (biayaDasar / 4));
-                } else {
-                    denda = biayaDasar * 0.75;
-                }
-            } 
-            else {
-                if (jamTerlambat <= 13) {
-                    let progressFase3 = (jamTerlambat - 12);
-                    denda = (biayaDasar * 0.75) + (progressFase3 * (biayaDasar / 4));
-                } else {
-                    const hariTerlambat = Math.ceil(jamTerlambat / 24);
-                    denda = hariTerlambat * biayaDasar;
-                }
+                denda = jamTerlambat <= 1 ? jamTerlambat * (biayaDasar / 2) : biayaDasar / 2;
+            } else if (jamTerlambat <= 12) {
+                denda = jamTerlambat <= 7 ? (biayaDasar / 2) + ((jamTerlambat - 6) * (biayaDasar / 4)) : biayaDasar * 0.75;
+            } else {
+                denda = jamTerlambat <= 13 ? (biayaDasar * 0.75) + ((jamTerlambat - 12) * (biayaDasar / 4)) : Math.ceil(jamTerlambat / 24) * biayaDasar;
             }
 
             h = Math.floor(selisih / 36e5);
@@ -154,9 +143,7 @@
             const formatDenda = Math.floor(denda).toLocaleString('id-ID');
             document.getElementById("denda-value").innerHTML = "Rp " + formatDenda;
             document.getElementById("total-all").innerHTML = "Rp " + formatDenda;
-            
         } else {
-            // MODE AMAN
             const sisa = Math.abs(selisih);
             h = Math.floor(sisa / 36e5);
             m = Math.floor((sisa % 36e5) / 6e4);
@@ -164,28 +151,21 @@
             
             document.getElementById("timer").innerHTML = `${h}j ${m}m ${s}s`;
             document.getElementById("timer").style.color = "#fbbf24";
-            
             document.getElementById("status-tag").innerHTML = "MASA SEWA";
             document.getElementById("status-tag").style.background = "#22c55e";
             document.getElementById("row-denda").style.display = "none";
             document.getElementById("denda-box").style.display = "none";
         }
 
-        // PERBAIKAN LINK WA: Mengambil durasi dan nominal denda real-time
-        let pesanWA = "";
-        if (selisih > 0) {
-            pesanWA = `Halo Admin, saya NOVEL ingin konfirmasi pengembalian unit. Status: OVERTIME (+${h}j ${m}m). Total denda berjalan: Rp ${Math.floor(denda).toLocaleString('id-ID')}.`;
-        } else {
-            pesanWA = `Halo Admin, saya NOVEL ingin konfirmasi pengembalian unit sesuai jadwal (Sisa waktu: ${h}j ${m}m).`;
-        }
+        let pesanWA = selisih > 0 ? 
+            `Halo Admin, saya NOVEL ingin konfirmasi pengembalian unit. Status: OVERTIME (+${h}j ${m}m). Total denda berjalan: Rp ${Math.floor(denda).toLocaleString('id-ID')}.` : 
+            `Halo Admin, saya NOVEL ingin konfirmasi pengembalian unit sesuai jadwal (Sisa waktu: ${h}j ${m}m).`;
         
-        const msg = window.encodeURIComponent(pesanWA);
-        document.getElementById("wa-link").href = `https://wa.me/6285176871609?text=${msg}`;
+        document.getElementById("wa-link").href = `https://wa.me/6285176871609?text=${encodeURIComponent(pesanWA)}`;
     }
 
     setInterval(updateArgo, 1000);
     updateArgo();
 </script>
-
 </body>
 </html>

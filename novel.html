@@ -1,19 +1,9 @@
-<?php
-// Konfigurasi Data Sewa
-$nama_pelanggan = "NOVEL";
-$biaya_sewa = 240000;
-$waktu_ambil = "1 Feb (11:00 WIB)";
-$waktu_kembali_label = "3 Feb (12:00 WIB)";
-$deadline_iso = "2026-02-03T12:00:00"; // Format untuk JavaScript
-$no_whatsapp = "6285176871609";
-?>
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice <?php echo $nama_pelanggan; ?> - Rental HT</title>
+    <title>Invoice Novel - Rental HT</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Quicksand', sans-serif; background: #0f172a; color: #fff; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
@@ -59,18 +49,18 @@ $no_whatsapp = "6285176871609";
     </div>
 
     <div class="profile">
-        <span class="name"><?php echo $nama_pelanggan; ?></span>
+        <span class="name">NOVEL</span>
         <span class="status-badge" id="status-tag" style="background: #22c55e;">MASA SEWA</span>
     </div>
 
     <div class="info-sewa">
         <div class="info-item">
             <span>Diambil:</span>
-            <span><?php echo $waktu_ambil; ?></span>
+            <span>1 Feb (11:00 WIB)</span>
         </div>
         <div class="info-item">
             <span>Kembali:</span>
-            <span><?php echo $waktu_kembali_label; ?></span>
+            <span>3 Feb (12:00 WIB)</span>
         </div>
     </div>
 
@@ -81,7 +71,7 @@ $no_whatsapp = "6285176871609";
 
     <div class="bill-details">
         <div class="row">
-            <span>Total Sewa (<?php echo number_format($biaya_sewa/1000, 0); ?>k)</span>
+            <span>Total Sewa (240k)</span>
             <span class="lunas">LUNAS ✓</span>
         </div>
         <div class="row" id="row-denda" style="display: none;">
@@ -101,33 +91,35 @@ $no_whatsapp = "6285176871609";
 
     <div class="catatan-box">
         <p><strong>Ketentuan Overtime:</strong><br>
-        • 1-6 Jam: ½ Harga Sewa (Progresif di jam ke-1)<br>
-        • 6-12 Jam: ¾ Harga Sewa (Progresif di jam ke-6)<br>
-        • >12 Jam: Full 1 Hari (Progresif di jam ke-12)</p>
+        • 1-6 Jam: ½ Harga Sewa<br>
+        • 6-12 Jam: ¾ Harga Sewa<br>
+        • >12 Jam: Full 1 Hari</p>
     </div>
 </div>
 
 <script>
-    const batasKembali = new Date("<?php echo $deadline_iso; ?>").getTime();
-    const biayaDasar = <?php echo $biaya_sewa; ?>;
-    const namaUser = "<?php echo $nama_pelanggan; ?>";
+    const batasKembali = new Date("2026-02-03T12:00:00").getTime();
+    const biayaDasar = 240000;
 
     function updateArgo() {
         const sekarang = new Date().getTime();
         const selisih = sekarang - batasKembali;
         
         let denda = 0;
+        let jamTerlambat = 0;
         let h = 0, m = 0, s = 0;
         
         if (selisih > 0) {
+            // MODE TERLAMBAT
             document.getElementById("status-tag").innerHTML = "OVERTIME";
             document.getElementById("status-tag").style.background = "#f87171";
             document.getElementById("timer-label").innerHTML = "Keterlambatan";
             document.getElementById("row-denda").style.display = "flex";
             document.getElementById("denda-box").style.display = "block";
             
-            const jamTerlambat = selisih / (1000 * 60 * 60);
+            jamTerlambat = selisih / (1000 * 60 * 60);
 
+            // LOGIKA FAST PROGRESS
             if (jamTerlambat <= 6) {
                 if (jamTerlambat <= 1) {
                     denda = jamTerlambat * (biayaDasar / 2);
@@ -164,6 +156,7 @@ $no_whatsapp = "6285176871609";
             document.getElementById("total-all").innerHTML = "Rp " + formatDenda;
             
         } else {
+            // MODE AMAN
             const sisa = Math.abs(selisih);
             h = Math.floor(sisa / 36e5);
             m = Math.floor((sisa % 36e5) / 6e4);
@@ -178,15 +171,16 @@ $no_whatsapp = "6285176871609";
             document.getElementById("denda-box").style.display = "none";
         }
 
+        // PERBAIKAN LINK WA: Mengambil durasi dan nominal denda real-time
         let pesanWA = "";
         if (selisih > 0) {
-            pesanWA = `Halo Admin, saya ${namaUser} ingin konfirmasi pengembalian unit. Status: OVERTIME (+${h}j ${m}m). Total denda berjalan: Rp ${Math.floor(denda).toLocaleString('id-ID')}.`;
+            pesanWA = `Halo Admin, saya NOVEL ingin konfirmasi pengembalian unit. Status: OVERTIME (+${h}j ${m}m). Total denda berjalan: Rp ${Math.floor(denda).toLocaleString('id-ID')}.`;
         } else {
-            pesanWA = `Halo Admin, saya ${namaUser} ingin konfirmasi pengembalian unit sesuai jadwal.`;
+            pesanWA = `Halo Admin, saya NOVEL ingin konfirmasi pengembalian unit sesuai jadwal (Sisa waktu: ${h}j ${m}m).`;
         }
         
         const msg = window.encodeURIComponent(pesanWA);
-        document.getElementById("wa-link").href = `https://wa.me/<?php echo $no_whatsapp; ?>?text=${msg}`;
+        document.getElementById("wa-link").href = `https://wa.me/6285176871609?text=${msg}`;
     }
 
     setInterval(updateArgo, 1000);

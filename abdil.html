@@ -3,195 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice Abdil - Rental HT</title>
+    <title>Bukti Pembayaran Lunas - ABDIL</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <style>
-        body { font-family: 'Quicksand', sans-serif; background: #0f172a; color: #fff; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .container { width: 90%; max-width: 380px; background: #1e293b; padding: 30px; border-radius: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); text-align: center; border: 1px solid #334155; }
-        .header h1 { font-family: 'Montserrat', sans-serif; font-size: 1.1rem; color: #38bdf8; margin-bottom: 20px; letter-spacing: 1px; }
-        .profile { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px dashed #475569; }
-        .name { font-weight: 900; font-size: 1.3rem; display: block; color: #f1f5f9; text-transform: uppercase; }
-        .status-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; margin-top: 8px; transition: all 0.3s ease; }
-        .info-sewa { background: #334155; padding: 15px; border-radius: 15px; margin-bottom: 20px; text-align: left; }
-        .info-item { display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 5px; }
-        .info-item span:last-child { font-weight: bold; color: #f1f5f9; }
-        .time-counter { background: rgba(56, 189, 248, 0.1); padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px solid rgba(56, 189, 248, 0.2); }
-        .time-label { font-size: 0.65rem; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; color: #94a3b8; }
-        #timer { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.1rem; color: #fbbf24; }
+        body { font-family: 'Quicksand', sans-serif; background: #06170d; color: #fff; margin: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; padding: 20px 0; }
+        
+        .container { 
+            width: 90%; 
+            max-width: 380px; 
+            background: #0c2115; 
+            padding: 30px; 
+            border-radius: 25px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5); 
+            text-align: center; 
+            border: 1px solid #164e33; 
+            position: relative; 
+            overflow: hidden; 
+        }
+        
+        /* Stempel Status - Versi LUNAS */
+        .paid-stamp { 
+            position: absolute; 
+            top: 25px; 
+            right: -35px; 
+            background: #22c55e; 
+            color: #fff; 
+            padding: 5px 40px; 
+            transform: rotate(45deg); 
+            font-family: 'Montserrat', sans-serif; 
+            font-weight: 900; 
+            font-size: 0.8rem; 
+            letter-spacing: 2px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
+        }
+
+        .header h1 { font-family: 'Montserrat', sans-serif; font-size: 1.1rem; color: #4ade80; margin: 10px 0 20px; letter-spacing: 1px; }
+        
+        .profile { background: rgba(74, 222, 128, 0.05); padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #166534; }
+        .name { font-weight: 900; font-size: 1.2rem; display: block; color: #f1f5f9; }
+        .phone { font-size: 0.85rem; color: #94a3b8; display: block; margin-top: 5px; }
+
+        .status-box { background: #166534; padding: 12px; border-radius: 12px; margin-bottom: 20px; }
+        .status-label { font-size: 0.6rem; font-weight: bold; text-transform: uppercase; color: #bbf7d0; opacity: 0.8; }
+        .status-text { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1rem; color: #ffffff; }
+
         .bill-details { text-align: left; margin-bottom: 20px; }
-        .row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.85rem; padding: 5px 0; border-bottom: 1px solid #2d3748; }
-        .lunas { color: #22c55e; font-weight: bold; }
-        .running-denda { color: #f87171; font-family: 'Montserrat', sans-serif; font-weight: bold; }
-        #denda-box { display: none; background: #f8fafc; color: #0f172a; padding: 20px; border-radius: 15px; margin-bottom: 20px; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
-        #denda-box small { font-weight: 800; text-transform: uppercase; font-size: 0.65rem; color: #64748b; }
-        #denda-box div { font-family: 'Montserrat', sans-serif; font-size: 1.8rem; font-weight: 900; }
-        .btn-wa { background: #22c55e; color: white; text-decoration: none; display: block; padding: 14px; border-radius: 12px; font-weight: bold; margin-bottom: 12px; font-size: 0.9rem; transition: background 0.3s; }
-        .btn-ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; text-decoration: none; display: block; padding: 14px; border-radius: 12px; font-weight: bold; margin-bottom: 12px; font-size: 0.9rem; transition: opacity 0.3s; }
-        .btn-snk { background: transparent; color: #38bdf8; border: 1px solid #38bdf8; text-decoration: none; display: block; padding: 10px; border-radius: 12px; font-weight: 600; margin-bottom: 15px; font-size: 0.8rem; }
-        .btn-back { color: #64748b; text-decoration: none; font-size: 0.75rem; display: block; margin-top: 10px; }
-        .catatan-box { background: rgba(251, 191, 36, 0.05); border-left: 4px solid #fbbf24; padding: 12px; text-align: left; margin-top: 20px; border-radius: 4px; }
-        .catatan-box p { font-size: 0.72rem; color: #cbd5e1; margin: 0; line-height: 1.5; }
+        .row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.8rem; padding: 5px 0; border-bottom: 1px solid rgba(20, 83, 45, 0.5); color: #d1d5db; }
+        .row.total-row { border-bottom: none; font-weight: bold; color: #4ade80; font-size: 0.9rem; margin-top: 10px; }
+
+        .total-pay { background: #f8fafc; color: #064e3b; padding: 15px; border-radius: 15px; margin-bottom: 15px; border: 2px solid #22c55e; }
+        .total-pay small { font-weight: 800; text-transform: uppercase; font-size: 0.6rem; letter-spacing: 1px; color: #64748b; display: block; margin-bottom: 5px; }
+        .total-pay .amount { font-family: 'Montserrat', sans-serif; font-size: 1.6rem; font-weight: 900; color: #059669; }
+        
+        .success-badge { font-size: 0.75rem; color: #4ade80; font-weight: bold; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+
+        .catatan-box { background: rgba(34, 197, 94, 0.1); border-left: 4px solid #22c55e; padding: 12px; text-align: left; border-radius: 4px; }
+        .catatan-box p { font-size: 0.7rem; color: #d1d5db; margin: 0; line-height: 1.5; }
+        .check-icon { font-size: 2.5rem; color: #22c55e; }
+
+        .action-area { width: 90%; max-width: 380px; margin-top: 25px; text-align: center; }
+        .btn-download { background: #22c55e; color: #ffffff; border: none; display: block; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; font-size: 0.9rem; }
+        .btn-download:hover { background: #16a34a; }
+        .btn-back { display: inline-block; margin-top: 15px; color: #94a3b8; text-decoration: none; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="container" id="receipt">
+    <div class="paid-stamp">LUNAS</div>
+    
     <div class="header">
-        <h1>INVOICE RENTAL</h1>
+        <div class="check-icon">✓</div>
+        <h1>KONFIRMASI PEMBAYARAN</h1>
     </div>
 
     <div class="profile">
         <span class="name">ABDIL</span>
-        <span class="status-badge" id="status-tag" style="background: #22c55e;">MASA SEWA</span>
+        <span class="phone">+62 821-1603-3405</span>
+        <span class="phone" style="font-size: 0.7rem; opacity: 0.7;">Customer ID: #UNIT10</span>
     </div>
 
-    <div class="info-sewa">
-        <div class="info-item">
-            <span>Diambil:</span>
-            <span>1 Feb (20:30 WIB)</span>
-        </div>
-        <div class="info-item">
-            <span>Kembali:</span>
-            <span>2 Feb (21:00 WIB)</span>
-        </div>
-    </div>
-
-    <div class="time-counter">
-        <div class="time-label" id="timer-label">Sisa Waktu Sewa</div>
-        <div id="timer">Memuat...</div>
+    <div class="status-box">
+        <div class="status-label">Status Transaksi</div>
+        <div class="status-text">PEMBAYARAN SELESAI</div>
     </div>
 
     <div class="bill-details">
-        <div class="row">
-            <span>Total Sewa (200k)</span>
-            <span class="lunas">LUNAS ✓</span>
-        </div>
-        <div class="row" id="row-denda" style="display: none;">
-            <span>Denda Overtime</span>
-            <span id="denda-value" class="running-denda">Rp 0</span>
-        </div>
+        <div class="row"><span>Sewa Unit</span><span>Rp 200.000</span></div>
+        <div class="row"><span>Denda Kerusakan</span><span>Rp 170.000</span></div>
+        <div class="row"><span>Biaya Terlambat</span><span>Rp 17.107</span></div>
+        <div class="row total-row"><span>Total Tagihan</span><span>Rp 387.107</span></div>
     </div>
 
-    <div id="denda-box">
-        <small>Total Denda Terkunci</small>
-        <div id="total-all">Rp 0</div>
+    <div class="total-pay">
+        <small>Total Dibayarkan (Lunas)</small>
+        <div class="amount">Rp 387.107</div>
     </div>
 
-    <a href="#" id="wa-link" target="_blank" class="btn-wa">Konfirmasi Selesai Sewa</a>
-    <a href="https://www.instagram.com/rentalhtkraksaan" target="_blank" class="btn-ig">Follow Instagram Kami</a>
-    <a href="https://rentalhtkraksaan.vercel.app/v93lmtar.html" target="_blank" class="btn-snk">Lihat Syarat & Ketentuan</a>
-    <a href="https://rentalhtkraksaan.vercel.app/zp1r5474qacs.html" class="btn-back">Kembali ke Beranda</a>
+    <div class="success-badge">
+        <span>●</span> Transaksi Berhasil & Selesai
+    </div>
 
     <div class="catatan-box">
-        <p><strong>Ketentuan Overtime:</strong><br>
-        • 1-6 Jam: ½ Harga Sewa<br>
-        • 6-12 Jam: ¾ Harga Sewa<br>
-        • >12 Jam: Full 1 Hari</p>
+        <p><strong>Catatan Admin:</strong><br>
+        Seluruh kewajiban pembayaran telah diselesaikan. Terima kasih telah menggunakan jasa kami dan atas kerjasamanya yang baik.</p>
     </div>
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<div class="action-area">
+    <button onclick="downloadReceipt()" class="btn-download">Download Bukti (JPG)</button>
+    <a href="https://rentalhtkraksaan.vercel.app/zp1r5474qacs.html" class="btn-back">Kembali ke Beranda</a>
+</div>
 
 <script>
-    // Konfigurasi Firebase
-    const firebaseConfig = {
-        apiKey: "AIzaSyCP45uq14jZysxMNf03DwtJlmjEMZXavY0",
-        authDomain: "ukib-b4675.firebaseapp.com",
-        databaseURL: "https://ukib-b4675-default-rtdb.firebaseio.com",
-        projectId: "ukib-b4675",
-        appId: "1:221524523430:web:2f4fd0c54cfefa5fb1f767"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    // Variabel Timer
-    const batasKembali = new Date("2026-02-02T21:00:00").getTime();
-    const biayaDasar = 200000;
-    
-    let isLocked = false;
-    let lockedTime = null;
-
-    // Sinkronisasi dengan Database untuk Stop Timer
-    db.ref('rentals/abdil/lockData').on('value', (snapshot) => {
-        const data = snapshot.val();
-        if (data && data.isLocked) {
-            isLocked = true;
-            lockedTime = data.timeAt;
-        } else {
-            isLocked = false;
-            lockedTime = null;
-        }
-        updateArgo(); // Jalankan update segera setelah data diterima
-    });
-
-    function updateArgo() {
-        // Jika dikunci, gunakan waktu saat admin klik stop. Jika tidak, gunakan waktu sekarang.
-        const sekarang = isLocked ? lockedTime : new Date().getTime();
-        const selisih = sekarang - batasKembali;
-                
-        let denda = 0;
-        let jamTerlambat = 0;
-        let h = 0, m = 0, s = 0;
-
-        if (selisih > 0) {
-            document.getElementById("status-tag").innerHTML = isLocked ? "SELESAI" : "OVERTIME";
-            document.getElementById("status-tag").style.background = isLocked ? "#38bdf8" : "#f87171";
-            document.getElementById("timer-label").innerHTML = isLocked ? "Waktu Berhenti" : "Keterlambatan";
-            document.getElementById("row-denda").style.display = "flex";
-            document.getElementById("denda-box").style.display = "block";
-            
-            if (isLocked) {
-                document.querySelector("#denda-box small").innerText = "Total Denda Final";
-            }
-                        
-            jamTerlambat = selisih / (1000 * 60 * 60);
-
-            if (jamTerlambat <= 6) {
-                denda = jamTerlambat <= 1 ? jamTerlambat * (biayaDasar / 2) : biayaDasar / 2;
-            } else if (jamTerlambat <= 12) {
-                denda = jamTerlambat <= 7 ? (biayaDasar / 2) + ((jamTerlambat - 6) * (biayaDasar / 4)) : biayaDasar * 0.75;
-            } else {
-                denda = jamTerlambat <= 13 ? (biayaDasar * 0.75) + ((jamTerlambat - 12) * (biayaDasar / 4)) : Math.ceil(jamTerlambat / 24) * biayaDasar;
-            }
-
-            h = Math.floor(selisih / 36e5);
-            m = Math.floor((selisih % 36e5) / 6e4);
-            s = Math.floor((selisih % 6e4) / 1000);
-            document.getElementById("timer").innerHTML = `+ ${h}j ${m}m ${s}s`;
-            document.getElementById("timer").style.color = isLocked ? "#38bdf8" : "#f87171";
-
-            const formatDenda = Math.floor(denda).toLocaleString('id-ID');
-            document.getElementById("denda-value").innerHTML = "Rp " + formatDenda;
-            document.getElementById("total-all").innerHTML = "Rp " + formatDenda;
-        } else {
-            const sisa = Math.abs(selisih);
-            h = Math.floor(sisa / 36e5);
-            m = Math.floor((sisa % 36e5) / 6e4);
-            s = Math.floor((sisa % 6e4) / 1000);
-                        
-            document.getElementById("timer").innerHTML = `${h}j ${m}m ${s}s`;
-            document.getElementById("timer").style.color = "#fbbf24";
-            document.getElementById("status-tag").innerHTML = "MASA SEWA";
-            document.getElementById("status-tag").style.background = "#22c55e";
-            document.getElementById("row-denda").style.display = "none";
-            document.getElementById("denda-box").style.display = "none";
-        }
-
-        let pesanWA = selisih > 0 ? 
-            `Halo Admin, saya ABDIL ingin konfirmasi pengembalian unit. Status: ${isLocked ? 'SELESAI' : 'OVERTIME'} (+${h}j ${m}m).` : 
-            `Halo Admin, saya ABDIL ingin konfirmasi pengembalian unit sesuai jadwal.`;
-                
-        document.getElementById("wa-link").href = `https://wa.me/6285176871609?text=${encodeURIComponent(pesanWA)}`;
+    function downloadReceipt() {
+        const btn = document.querySelector('.btn-download');
+        btn.innerText = "Sedang Memproses...";
+        
+        const receipt = document.getElementById('receipt');
+        
+        html2canvas(receipt, {
+            backgroundColor: "#06170d",
+            scale: 3,
+            useCORS: true,
+            logging: false
+        }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = 'Bukti_Lunas_Abdil_UNIT10.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+            btn.innerText = "Download Bukti (JPG)";
+        });
     }
-
-    // Interval hanya berjalan jika tidak dikunci
-    setInterval(() => {
-        if (!isLocked) updateArgo();
-    }, 1000);
-    
-    updateArgo();
 </script>
+
 </body>
 </html>

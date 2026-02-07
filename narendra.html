@@ -22,12 +22,17 @@
         .time-label { font-size: 0.65rem; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; color: #94a3b8; }
         #timer { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.1rem; color: #38bdf8; }
         
-        .bill-details { text-align: left; margin-bottom: 20px; }
-        .row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.85rem; padding: 5px 0; border-bottom: 1px solid #2d3748; }
-        .lunas { color: #22c55e; font-weight: bold; }
-        .belum-bayar { color: #f87171; font-weight: bold; }
+        .bill-details { text-align: left; margin-bottom: 15px; }
+        .row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.8rem; padding: 4px 0; border-bottom: 1px solid #2d3748; }
+        .lunas { color: #22c55e; font-weight: bold; font-size: 0.7rem; }
+        .belum-bayar { color: #f87171; font-weight: bold; font-size: 0.7rem; }
         
-        /* Tombol Styles */
+        /* Ringkasan Total */
+        .summary-box { background: #0f172a; padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #38bdf8; }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.85rem; }
+        .total-highlight { color: #fbbf24; font-weight: 900; font-size: 1.1rem; border-top: 1px solid #334155; padding-top: 5px; margin-top: 5px; }
+        .sisa-highlight { color: #f87171; font-weight: 900; font-size: 1.1rem; }
+
         .btn-wa { background: #22c55e; color: white; text-decoration: none; display: block; padding: 14px; border-radius: 12px; font-weight: bold; margin-bottom: 12px; font-size: 0.9rem; transition: background 0.3s; }
         .btn-wa:hover { background: #1a9e4b; }
         .btn-ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; text-decoration: none; display: block; padding: 14px; border-radius: 12px; font-weight: bold; margin-bottom: 12px; font-size: 0.9rem; }
@@ -62,7 +67,7 @@
 
     <div class="time-counter">
         <div class="time-label">Status Waktu</div>
-        <div id="timer">SUDAH DIKEMBALIKAN</div>
+        <div id="timer">TELAH DIKEMBALIKAN</div>
     </div>
 
     <div class="bill-details">
@@ -76,23 +81,34 @@
         </div>
         <div class="row">
             <span>Segel Printer Rusak</span>
-            <span class="belum-bayar">Rp 200.000 (BELUM BAYAR)</span>
+            <span class="belum-bayar">Rp 200.000</span>
         </div>
     </div>
 
-    <a href="https://wa.me/6285176871609?text=Halo%20Admin%2C%20saya%20Narendra%20ingin%20konfirmasi%20pembayaran%20denda%20segel%20rusak%20sebesar%20Rp%20200.000" target="_blank" class="btn-wa">Bayar Tagihan Segel</a>
+    <div class="summary-box">
+        <div class="summary-row">
+            <span>Total Tagihan:</span>
+            <span>Rp 755.000</span>
+        </div>
+        <div class="summary-row">
+            <span>Sudah Dibayar:</span>
+            <span style="color: #22c55e;">Rp 555.000</span>
+        </div>
+        <div class="summary-row total-highlight">
+            <span>Sisa Tagihan:</span>
+            <span class="sisa-highlight">Rp 200.000</span>
+        </div>
+    </div>
+
+    <a href="https://wa.me/6285176871609?text=Halo%20Admin%2C%20saya%20Narendra%20ingin%20konfirmasi%20pembayaran%20sisa%20tagihan%20segel%20rusak%20sebesar%20Rp%20200.000" target="_blank" class="btn-wa">Bayar Sisa Tagihan</a>
     <a href="https://www.instagram.com/rentalhtkraksaan" target="_blank" class="btn-ig">Follow Instagram Kami</a>
     <a href="https://rentalhtkraksaan.vercel.app/v93lmtar.html" target="_blank" class="btn-snk">Lihat Syarat & Ketentuan</a>
     <a href="https://rentalhtkraksaan.vercel.app/zp1r5474qacs.html" class="btn-back">Kembali ke Beranda</a>
 
     <div class="catatan-box">
-        <p><strong>Catatan Tambahan:</strong><br>
-        Unit telah diterima kembali oleh admin. Mohon segera selesaikan administrasi kerusakan segel sesuai ketentuan yang berlaku.</p>
+        <p><strong>Penting:</strong><br>
+        Sisa tagihan Rp 200.000 adalah biaya penggantian unit/segel yang rusak sesuai kesepakatan saat pengambilan barang.</p>
     </div>
 </div>
-
-<script>
-    // Timer dihapus karena barang sudah dikembalikan sesuai permintaan.
-</script>
 </body>
 </html>

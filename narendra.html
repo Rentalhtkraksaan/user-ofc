@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -21,26 +20,17 @@
         
         .time-counter { background: rgba(56, 189, 248, 0.1); padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px solid rgba(56, 189, 248, 0.2); }
         .time-label { font-size: 0.65rem; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; color: #94a3b8; }
-        #timer { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.1rem; color: #fbbf24; }
+        #timer { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.1rem; color: #38bdf8; }
         
         .bill-details { text-align: left; margin-bottom: 20px; }
         .row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.85rem; padding: 5px 0; border-bottom: 1px solid #2d3748; }
         .lunas { color: #22c55e; font-weight: bold; }
-        .running-denda { color: #f87171; font-family: 'Montserrat', sans-serif; font-weight: bold; }
-        
-        #denda-box { display: none; background: #f8fafc; color: #0f172a; padding: 20px; border-radius: 15px; margin-bottom: 20px; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
-        #denda-box small { font-weight: 800; text-transform: uppercase; font-size: 0.65rem; color: #64748b; }
-        #denda-box div { font-family: 'Montserrat', sans-serif; font-size: 1.8rem; font-weight: 900; }
+        .belum-bayar { color: #f87171; font-weight: bold; }
         
         /* Tombol Styles */
         .btn-wa { background: #22c55e; color: white; text-decoration: none; display: block; padding: 14px; border-radius: 12px; font-weight: bold; margin-bottom: 12px; font-size: 0.9rem; transition: background 0.3s; }
         .btn-wa:hover { background: #1a9e4b; }
-        
-        /* Tombol Instagram Baru */
-        .btn-ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; text-decoration: none; display: block; padding: 14px; border-radius: 12px; font-weight: bold; margin-bottom: 12px; font-size: 0.9rem; transition: opacity 0.3s; }
-        .btn-ig:hover { opacity: 0.9; }
-
+        .btn-ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; text-decoration: none; display: block; padding: 14px; border-radius: 12px; font-weight: bold; margin-bottom: 12px; font-size: 0.9rem; }
         .btn-snk { background: transparent; color: #38bdf8; border: 1px solid #38bdf8; text-decoration: none; display: block; padding: 10px; border-radius: 12px; font-weight: 600; margin-bottom: 15px; font-size: 0.8rem; }
         .btn-back { color: #64748b; text-decoration: none; font-size: 0.75rem; display: block; margin-top: 10px; }
         
@@ -49,7 +39,6 @@
     </style>
 </head>
 <body>
-
 <div class="container">
     <div class="header">
         <h1>INVOICE RENTAL</h1>
@@ -57,7 +46,7 @@
 
     <div class="profile">
         <span class="name">Narendra</span>
-        <span class="status-badge" id="status-tag" style="background: #22c55e;">MASA SEWA</span>
+        <span class="status-badge" style="background: #38bdf8;">SELESAI SEWA</span>
     </div>
 
     <div class="info-sewa">
@@ -72,8 +61,8 @@
     </div>
 
     <div class="time-counter">
-        <div class="time-label" id="timer-label">Sisa Waktu Sewa</div>
-        <div id="timer">Memuat...</div>
+        <div class="time-label">Status Waktu</div>
+        <div id="timer">SUDAH DIKEMBALIKAN</div>
     </div>
 
     <div class="bill-details">
@@ -85,92 +74,25 @@
             <span>Sewa Printer (150k)</span>
             <span class="lunas">LUNAS ✓</span>
         </div>
-        <div class="row" id="row-denda" style="display: none;">
-            <span>Denda Overtime</span>
-            <span id="denda-value" class="running-denda">Rp 0</span>
+        <div class="row">
+            <span>Segel Rusak (1 Unit)</span>
+            <span class="belum-bayar">Rp 200.000 (BELUM BAYAR)</span>
         </div>
     </div>
 
-    <div id="denda-box">
-        <small>Total Denda Berjalan</small>
-        <div id="total-all">Rp 0</div>
-    </div>
-
-    <a href="#" id="wa-link" target="_blank" class="btn-wa">Konfirmasi Selesai Sewa</a>
+    <a href="https://wa.me/6285176871609?text=Halo%20Admin%2C%20saya%20Narendra%20ingin%20konfirmasi%20pembayaran%20denda%20segel%20rusak%20sebesar%20Rp%20200.000" target="_blank" class="btn-wa">Bayar Tagihan Segel</a>
     <a href="https://www.instagram.com/rentalhtkraksaan" target="_blank" class="btn-ig">Follow Instagram Kami</a>
-    
     <a href="https://rentalhtkraksaan.vercel.app/v93lmtar.html" target="_blank" class="btn-snk">Lihat Syarat & Ketentuan</a>
     <a href="https://rentalhtkraksaan.vercel.app/zp1r5474qacs.html" class="btn-back">Kembali ke Beranda</a>
 
     <div class="catatan-box">
-        <p><strong>Ketentuan Overtime:</strong><br>
-        • 1-6 Jam: ½ Harga Sewa<br>
-        • 6-12 Jam: ¾ Harga Sewa<br>
-        • >12 Jam: Full 1 Hari</p>
+        <p><strong>Catatan Tambahan:</strong><br>
+        Unit telah diterima kembali oleh admin. Mohon segera selesaikan administrasi kerusakan segel sesuai ketentuan yang berlaku.</p>
     </div>
 </div>
 
 <script>
-    const batasKembali = new Date("2026-02-07T23:59:00").getTime();
-    const biayaDasar = 420000;
-
-    function updateArgo() {
-        const sekarang = new Date().getTime();
-        const selisih = sekarang - batasKembali;
-        
-        let denda = 0;
-        let jamTerlambat = 0;
-        let h = 0, m = 0, s = 0;
-
-        if (selisih > 0) {
-            document.getElementById("status-tag").innerHTML = "OVERTIME";
-            document.getElementById("status-tag").style.background = "#f87171";
-            document.getElementById("timer-label").innerHTML = "Keterlambatan";
-            document.getElementById("row-denda").style.display = "flex";
-            document.getElementById("denda-box").style.display = "block";
-            
-            jamTerlambat = selisih / (1000 * 60 * 60);
-
-            if (jamTerlambat <= 6) {
-                denda = jamTerlambat <= 1 ? jamTerlambat * (biayaDasar / 2) : biayaDasar / 2;
-            } else if (jamTerlambat <= 12) {
-                denda = jamTerlambat <= 7 ? (biayaDasar / 2) + ((jamTerlambat - 6) * (biayaDasar / 4)) : biayaDasar * 0.75;
-            } else {
-                denda = jamTerlambat <= 13 ? (biayaDasar * 0.75) + ((jamTerlambat - 12) * (biayaDasar / 4)) : Math.ceil(jamTerlambat / 24) * biayaDasar;
-            }
-
-            h = Math.floor(selisih / 36e5);
-            m = Math.floor((selisih % 36e5) / 6e4);
-            s = Math.floor((selisih % 6e4) / 1000);
-            document.getElementById("timer").innerHTML = `+ ${h}j ${m}m ${s}s`;
-            document.getElementById("timer").style.color = "#f87171";
-
-            const formatDenda = Math.floor(denda).toLocaleString('id-ID');
-            document.getElementById("denda-value").innerHTML = "Rp " + formatDenda;
-            document.getElementById("total-all").innerHTML = "Rp " + formatDenda;
-        } else {
-            const sisa = Math.abs(selisih);
-            h = Math.floor(sisa / 36e5);
-            m = Math.floor((sisa % 36e5) / 6e4);
-            s = Math.floor((sisa % 6e4) / 1000);
-            
-            document.getElementById("timer").innerHTML = `${h}j ${m}m ${s}s`;
-            document.getElementById("timer").style.color = "#fbbf24";
-            document.getElementById("status-tag").innerHTML = "MASA SEWA";
-            document.getElementById("status-tag").style.background = "#22c55e";
-            document.getElementById("row-denda").style.display = "none";
-            document.getElementById("denda-box").style.display = "none";
-        }
-
-        let pesanWA = selisih > 0 ? 
-            `Halo Admin, saya NOVEL ingin konfirmasi pengembalian unit. Status: OVERTIME (+${h}j ${m}m). Total denda berjalan: Rp ${Math.floor(denda).toLocaleString('id-ID')}.` : 
-            `Halo Admin, saya NOVEL ingin konfirmasi pengembalian unit sesuai jadwal (Sisa waktu: ${h}j ${m}m).`;
-        
-        document.getElementById("wa-link").href = `https://wa.me/6285176871609?text=${encodeURIComponent(pesanWA)}`;
-    }
-
-    setInterval(updateArgo, 1000);
-    updateArgo();
+    // Timer dihapus karena barang sudah dikembalikan sesuai permintaan.
 </script>
 </body>
 </html>

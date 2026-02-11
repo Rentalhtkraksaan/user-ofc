@@ -9,15 +9,16 @@
     body { font-family: 'Segoe UI', sans-serif; }
     button, a { -webkit-tap-highlight-color: transparent; }
     .warning-text { color: #dc2626; font-weight: bold; }
+    .denda-box { background-color: #fef2f2; border: 1px solid #fee2e2; padding: 10px; border-radius: 8px; font-size: 0.75rem; color: #991b1b; margin-top: 10px; }
   </style>
 </head>
 <body class="bg-gray-100 text-gray-800 min-h-screen relative">
   <div class="max-w-2xl mx-auto p-6 pt-8 pb-24 bg-white shadow-md rounded-lg mt-8">
     <h1 class="text-2xl font-bold mb-4 text-center">Syarat & Ketentuan Sewa</h1>
-
+    
     <div class="mb-4">
       <p>📍 <strong>Lokasi:</strong> Alun-Alun Kraksaan</p>
-      <p>🪪 <strong>Jaminan:</strong> KTP atau SIM</p>
+      <p>🪪 <strong>Jaminan:</strong> KTP atau SIM (Asli)</p>
     </div>
 
     <div class="mb-4">
@@ -37,6 +38,16 @@
       </ul>
     </div>
 
+    <div class="mb-4 p-4 bg-green-50 border-l-4 border-green-500 rounded">
+      <h2 class="font-bold text-lg mb-1 text-green-800">🖥️ Ketentuan Proyektor EB-S400:</h2>
+      <ul class="list-disc ml-6 text-sm">
+        <li>Weekday (Senin-Kamis): <strong>Rp 200.000 / 24 Jam</strong></li>
+        <li>Weekend (Jumat-Minggu): <strong>Rp 250.000 / 24 Jam</strong></li>
+        <li class="warning-text">Dilarang matikan paksa cabut kabel! (Wajib tunggu kipas mati dulu).</li>
+        <li>Unit mati total/meledak lampu akibat salah penggunaan: Ganti Unit Baru.</li>
+      </ul>
+    </div>
+
     <div class="mb-4 p-4 bg-blue-50 border-l-4 border-blue-500 rounded">
       <h2 class="font-bold text-lg mb-1 text-blue-800">🖨️ Ketentuan Printer L385:</h2>
       <ul class="list-disc ml-6 text-sm">
@@ -51,65 +62,71 @@
       <h2 class="font-semibold text-lg mb-1">⚠️ Biaya Ganti Rugi Jika Barang Hilang/Rusak:</h2>
       <p class="text-xs text-red-600 font-bold mb-2 italic">*Barang rusak/diganti rugi TETAP MENJADI HAK MILIK OWNER & tidak dapat diambil penyewa.</p>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-        <ul class="list-disc ml-6">
+        <ul class="list-disc ml-6 text-sm">
           <li>HT Analog: Rp 250.000</li>
           <li>HT Biasa: Rp 170.000</li>
-          <li>Headset: Rp 25.000</li>
-          <li>Antena: Rp 35.000</li>
+          <li>Antena/Headset: Rp 35.000</li>
           <li>Charger: Rp 65.000</li>
+          <li>Lampu Proyektor: Rp 850.000</li>
+           <li>Proyektor Mati Total: Rp 4.000.000</li>
         </ul>
-        <ul class="list-disc ml-6">
+        <ul class="list-disc ml-6 text-sm">
           <li>Print Head L385: Rp 1.200.000</li>
           <li>Mainboard Printer: Rp 600.000</li>
-          <li>Segel Tinta Rusak: Rp 200.000</li>
-          <li>Box Kecil/Besar: Rp 45rb - Rp 250rb</li>
+          <li>Segel Printer Rusak: Rp 200.000</li>
+          <li>LCD Proyektor: Rp 1.500.000</li>
+          <li>Remote/HDMI: Rp 100.000</li>
+          <li>Box/Tas Rusak: Rp 45rb - Rp 250rb</li>
         </ul>
+      </div>
+
+      <div class="denda-box">
+        <strong>🚨 DENDA OPERASIONAL:</strong><br>
+        Jika barang rusak akibat kelalaian dan harus diservis, penyewa wajib membayar denda harian sebesar <strong>Rp 50.000 per hari</strong> selama masa perbaikan (biaya ganti potensi pendapatan sewa yang hilang).
       </div>
     </div>
 
     <div class="mb-4">
       <h2 class="font-semibold text-lg mb-1">⏱️ Keterlambatan Pengembalian:</h2>
-      <ul class="list-disc ml-6">
+      <ul class="list-disc ml-6 text-sm">
         <li>Toleransi keterlambatan: maksimal 1 jam</li>
         <li>Keterlambatan 1-6 jam: biaya tambahan ½ hari sewa</li>
-        <li>Keterlambatan 6-12 jam: biaya tambahan ¾ hari sewa</li>
-        <li>Keterlambatan >24 jam: dihitung sewa 1 hari penuh</li>
+        <li>Keterlambatan >6 jam: dihitung sewa 1 hari penuh</li>
       </ul>
     </div>
 
     <div class="mb-6">
       <h2 class="font-semibold text-lg mb-1">🚚 Layanan Tambahan:</h2>
-      <ul class="list-disc ml-6">
+      <ul class="list-disc ml-6 text-sm">
         <li>Antar saja: Rp 8.000/km</li>
         <li>Antar-jemput: Rp 15.000/km</li>
         <li>Setting frekuensi: Rp 10.000 - Rp 15.000/unit</li>
       </ul>
     </div>
 
-    <div class="mb-2">
+    <div class="mb-2 text-sm">
       <h2 class="font-semibold text-lg mb-1">📝 Catatan Penting:</h2>
       <ul class="list-disc ml-6">
         <li>Pastikan <strong>tanggal dan unit</strong> sudah fix.</li>
-        <li><strong>Dilarang keras:</strong> Mengisi tinta sendiri atau memakai kertas ber-steples/lecek pada printer.</li>
-        <li class="font-bold text-red-700">Barang yang rusak/diservis setelah sewa adalah biaya pemulihan aset, barang tetap menjadi milik owner.</li>
+        <li><strong>Dilarang keras:</strong> Membongkar unit, merusak segel (Denda Rp 500.000), mengisi tinta sendiri.</li>
+        <li class="font-bold text-red-700 text-xs">Barang yang rusak/diservis setelah sewa adalah biaya pemulihan aset, barang tetap menjadi milik owner.</li>
         <li><strong>Tidak menerima:</strong> Reschedule, pengurangan unit, atau Refund.</li>
       </ul>
-    </div>
-    <p class="text-center mt-6 text-sm text-gray-500">© 2025 Rental HT & Printer Kraksaan</p>
+    </div>    
+    <p class="text-center mt-6 text-sm text-gray-500">© 2026 Rental HT, Printer & Proyektor Kraksaan</p>  
   </div>
 
-  <div class="fixed bottom-4 left-4">
-    <a href="zp1r5474qacs.html" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-lg shadow">BACK</a>
-  </div>
-  <div class="fixed bottom-4 right-4">
-    <a href="kq7x21m.html" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow">ORDER</a>
+  <div class="fixed bottom-4 left-4">    
+    <a href="zp1r5474qacs.html" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-lg shadow text-sm">BACK</a>  
+  </div>  
+  <div class="fixed bottom-4 right-4">    
+    <a href="kq7x21m.html" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow text-sm">ORDER</a>  
   </div>
 
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>  
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>  
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>  
   <script>
-    // Config Firebase Anda
     const firebaseConfig = {
       apiKey: "AIzaSyARrxdwo63OFMpPULhSkVof1ws-GvIlLlQ",
       authDomain: "koor-baru.firebaseapp.com",
@@ -122,14 +139,5 @@
     };
     firebase.initializeApp(firebaseConfig);
     firebase.auth().signInAnonymously().then(() => { window.db = firebase.database(); });
-
-    function hitungJarak(lat1, lon1, lat2, lon2) {
-      const R = 6371;
-      const dLat = (lat2 - lat1) * Math.PI / 180;
-      const dLon = (lon2 - lon1) * Math.PI / 180;
-      const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) ** 2;
-      return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
-    }
   </script>
-</body>
-</html>
+</body></html>

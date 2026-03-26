@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -53,11 +54,13 @@
 
     <div style="margin-bottom: 20px;">
         <span style="font-weight: 900; font-size: 1.4rem;">MUHAMMAD</span><br>
-        <span style="font-size: 0.75rem; color: #94a3b8;">10 Unit • 1.5 Hari • S/D 26 Mar 13:00</span>
+        <span style="font-size: 0.75rem; color: #94a3b8;">10 Unit • 1.5 Hari • S/D 27 Mar 12:00</span>
     </div>
 
     <div class="bill-details">
         <div class="row"><span>Sewa Pokok</span><span>Rp 350.000</span></div>
+        <div class="row"><span>Denda Tanpa konfirm</span><span>Rp 150.000</span></div>
+        <div class="row"><span>Tambah 1/2 hari</span><span>Rp 100.000</span></div>
         <div class="row">
             <span class="clickable" onclick="showModal()">Ongkir (2.6km) 🔍</span>
             <span id="ongkirValue">Rp 20.800</span>
@@ -72,7 +75,7 @@
 
     <div class="total-pay">
         <small style="font-weight: bold; letter-spacing: 1px;">TOTAL YANG BELUM LUNAS</small>
-        <span class="amount" id="finalTotal">Rp 370.800</span>
+        <span class="amount" id="finalTotal">Rp 620.800</span>
     </div>
 
     <div class="info-box">
@@ -94,13 +97,13 @@
 </div>
 
 <script>
-    const sewaPokok = 350000;
+    const sewaPokok = 600000;
     const jarak = 2.6;
     const tarifPerKm = 8000;
     const ongkir = jarak * tarifPerKm; // Hasil: 20800
     
     // Deadline 26 Maret 2026 jam 07:00
-    const deadline = new Date("March 26, 2026 13:00:00").getTime();
+    const deadline = new Date("March 27, 2026 12:00:00").getTime();
 
     function updateSystem() {
         const now = new Date().getTime();

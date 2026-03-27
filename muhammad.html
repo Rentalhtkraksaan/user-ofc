@@ -1,170 +1,112 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice Belum Lunas - Muhammad</title>
+    <title>Invoice Muhammad - Detail Lengkap</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body { font-family: 'Quicksand', sans-serif; background: #020617; color: #fff; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px 0; }
-        .container { width: 90%; max-width: 380px; background: #0f172a; padding: 25px; border-radius: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); text-align: center; border: 1px solid #1e293b; position: relative; overflow: hidden; }
-        
-        /* Status Bar */
-        .status-badge { background: #facc15; color: #000; font-weight: 900; font-size: 0.7rem; padding: 8px; border-radius: 10px; margin-bottom: 15px; display: inline-block; letter-spacing: 1px; }
-        .status-overdue { background: #ef4444 !important; color: #fff !important; }
-
-        /* Countdown */
-        .countdown-box { background: #1e1b4b; border: 2px solid #3730a3; padding: 15px; border-radius: 15px; margin-bottom: 20px; }
-        .overdue-bg { background: #450a0a !important; border-color: #ef4444 !important; }
-        #timer { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.4rem; color: #60a5fa; }
-        .overdue-text { color: #f87171 !important; }
-
-        /* Rows */
-        .row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #1e293b; font-size: 0.85rem; color: #cbd5e1; }
-        .row.denda-active { color: #f87171; font-weight: bold; border-bottom: 1px solid #450a0a; }
-        
-        .clickable { color: #38bdf8; text-decoration: none; cursor: pointer; font-weight: bold; }
-
+        .container { width: 90%; max-width: 380px; background: #0f172a; padding: 25px; border-radius: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); text-align: center; border: 1px solid #1e293b; position: relative; }
+        .status-badge { background: #ef4444; color: #fff; font-weight: 900; font-size: 0.7rem; padding: 8px; border-radius: 10px; margin-bottom: 15px; display: inline-block; letter-spacing: 1px; }
+        .countdown-box { background: #450a0a; border: 2px solid #ef4444; padding: 15px; border-radius: 15px; margin-bottom: 20px; }
+        #timer { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.1rem; color: #f87171; }
+        .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1e293b; font-size: 0.8rem; color: #cbd5e1; }
+        .row-group { margin-bottom: 15px; text-align: left; }
+        .group-label { font-size: 0.65rem; color: #94a3b8; font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 5px; }
+        .highlight { color: #f87171; font-weight: bold; }
         .total-pay { background: #fff; color: #0f172a; padding: 20px; border-radius: 15px; margin: 20px 0; border: 3px solid #ef4444; }
         .amount { font-family: 'Montserrat', sans-serif; font-size: 1.8rem; font-weight: 900; display: block; color: #b91c1c; }
-
-        /* Info Box */
-        .info-box { background: rgba(255, 255, 255, 0.05); border-radius: 15px; padding: 15px; text-align: left; font-size: 0.75rem; margin-top: 10px; border: 1px solid #1e293b; }
-        .info-box strong { color: #f87171; display: block; margin-bottom: 5px; text-transform: uppercase; }
-        
-        .btn-ketentuan { display: block; text-align: center; background: #334155; color: white; text-decoration: none; padding: 8px; border-radius: 8px; margin-top: 10px; font-weight: bold; font-size: 0.7rem; }
-
-        /* Modal Pop Up */
-        .modal { display: none; position: fixed; z-index: 999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; flex-direction: column; }
-        .modal img { max-width: 90%; max-height: 70%; border-radius: 10px; border: 2px solid #fff; }
         .btn-download { background: #ef4444; color: #fff; border: none; padding: 15px; border-radius: 12px; font-weight: bold; width: 90%; max-width: 380px; margin-top: 20px; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="container" id="receipt">
-    <div class="status-badge" id="statusBadge">⚠️ MENUNGGU PEMBAYARAN</div>
-
-    <div class="countdown-box" id="timerContainer">
-        <div style="font-size: 0.6rem; text-transform: uppercase; margin-bottom: 5px;" id="timerLabel">SISA WAKTU PELUNASAN</div>
-        <div id="timer">00:00:00</div>
+    <div class="status-badge">⚠️ 3 UNIT BELUM KEMBALI</div>
+    
+    <div class="countdown-box">
+        <div style="font-size: 0.6rem; text-transform: uppercase; margin-bottom: 5px;">DURASI KETERLAMBATAN (Start 10:00)</div>
+        <div id="timer">0 Hari 0 Jam 0 Menit</div>
     </div>
 
     <div style="margin-bottom: 20px;">
         <span style="font-weight: 900; font-size: 1.4rem;">MUHAMMAD</span><br>
-        <span style="font-size: 0.75rem; color: #94a3b8;">10 Unit • 1.5 Hari • S/D 27 Mar 12:00</span>
+        <span style="font-size: 0.7rem; color: #94a3b8;">10 Unit • 1.5 Hari (Revisi)</span>
     </div>
 
-    <div class="bill-details">
-        <div class="row"><span>Sewa Pokok</span><span>Rp 350.000</span></div>
-        <div class="row"><span>Denda Tanpa konfirm</span><span>Rp 150.000</span></div>
-        <div class="row"><span>Tambah 1/2 hari</span><span>Rp 100.000</span></div>
-        <div class="row">
-            <span class="clickable" onclick="showModal()">Ongkir (2.6km) 🔍</span>
-            <span id="ongkirValue">Rp 20.800</span>
-        </div>
-        <div id="dendaArea" style="display: none;">
-            <div class="row denda-active">
-                <span id="dendaLabel">Denda Terdeteksi</span>
-                <span id="dendaValue">Rp 0</span>
-            </div>
+    <div class="row-group">
+        <span class="group-label">Rincian Nota Sebelumnya</span>
+        <div class="row"><span>Sewa Pokok (10 Unit)</span><span>Rp 350.000</span></div>
+        <div class="row"><span>Denda Tanpa Konfirmasi</span><span>Rp 150.000</span></div>
+        <div class="row"><span>Tambah 1/2 Hari</span><span>Rp 100.000</span></div>
+        <div class="row"><span>Ongkir (2.6km)</span><span>Rp 20.800</span></div>
+        <div class="row" style="color: #4ade80; font-weight: bold;"><span>Sudah Dibayar</span><span>- Rp 320.000</span></div>
+    </div>
+
+    <div class="row-group">
+        <span class="group-label">Biaya Unit Tertahan (60rb/Hari)</span>
+        <div class="row highlight">
+            <span id="labelHari">Tambahan Hari ke-1</span>
+            <span id="biayaUnit">Rp 60.000</span>
         </div>
     </div>
 
     <div class="total-pay">
-        <small style="font-weight: bold; letter-spacing: 1px;">TOTAL YANG BELUM LUNAS</small>
-        <span class="amount" id="finalTotal">Rp 620.800</span>
+        <small style="font-weight: bold; letter-spacing: 1px;">SISA YANG HARUS DIBAYAR</small>
+        <span class="amount" id="finalTotal">Rp 360.800</span>
     </div>
 
-    <div class="info-box">
-        <strong>Ket. Keterlambatan:</strong>
-        • 1-6 Jam: +50% (Rp 100k)<br>
-        • 6-12 Jam: +75% (Rp 150k)<br>
-        • >12 Jam: Nambah Hari (+Rp 200k)
-        
-        <a href="https://rentalhtkraksaan.vercel.app/v93lmtar.html" class="btn-ketentuan">BACA KETENTUAN LENGKAP</a>
+    <div style="font-size: 0.65rem; color: #94a3b8; text-align: left; line-height: 1.4;">
+        * Nota otomatis bertambah <strong>Rp 60.000</strong> setiap jam 10:00 siang jika 3 unit belum kembali.
     </div>
 </div>
 
 <button onclick="downloadReceipt()" class="btn-download">SIMPAN GAMBAR TAGIHAN</button>
 
-<div id="myModal" class="modal" onclick="closeModal()">
-    <img src="foto1.jpg" alt="Bukti Jarak">
-    <p style="color: white; margin-top: 15px; font-weight: bold;">BUKTI JARAK 2.6 KM</p>
-    <small style="color: #94a3b8;">(Klik di mana saja untuk tutup)</small>
-</div>
-
 <script>
-    const sewaPokok = 600000;
-    const jarak = 2.6;
-    const tarifPerKm = 8000;
-    const ongkir = jarak * tarifPerKm; // Hasil: 20800
+    const totalNotaLama = 620800; // 350+150+100+20.8
+    const sudahBayar = 320000;
+    const tarifHarian = 60000;
     
-    // Deadline 26 Maret 2026 jam 07:00
-    const deadline = new Date("March 27, 2026 12:00:00").getTime();
+    // START: 27 Maret 2026 jam 10:00 pagi
+    const startTime = new Date("March 27, 2026 10:00:00").getTime();
 
-    function updateSystem() {
+    function updateInvoice() {
         const now = new Date().getTime();
-        const diff = deadline - now;
-        const absDiff = Math.abs(diff);
-        const hoursLate = absDiff / (1000 * 60 * 60);
+        const diffInMs = now - startTime;
+        
+        // Timer Visual
+        const d = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diffInMs % (1000 * 60)) / 1000);
+        document.getElementById("timer").innerHTML = d + " Hari " + h + "j " + m + "m " + s + "s";
 
-        const d = Math.floor(absDiff / (1000 * 60 * 60 * 24));
-        const h = Math.floor((absDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const m = Math.floor((absDiff % (1000 * 60 * 60)) / (1000 * 60));
-        const s = Math.floor((absDiff % (1000 * 60)) / 1000);
+        // Hitung Hari (Hari ke-1 dimulai sejak jam 10:00 tadi)
+        const hariBerjalan = d + 1; 
+        const biayaUnitTertahan = hariBerjalan * tarifHarian;
+        const sisaNotaLama = totalNotaLama - sudahBayar;
+        const totalAkhir = sisaNotaLama + biayaUnitTertahan;
 
-        let denda = 0;
-
-        if (diff > 0) {
-            document.getElementById("timer").innerHTML = d + "h " + h + "j " + m + "m " + s + "s";
-            document.getElementById("dendaArea").style.display = "none";
-        } else {
-            document.getElementById("statusBadge").innerText = "❌ TERLAMBAT & DENDA AKTIF";
-            document.getElementById("statusBadge").classList.add("status-overdue");
-            document.getElementById("timerContainer").classList.add("overdue-bg");
-            document.getElementById("timer").classList.add("overdue-text");
-            document.getElementById("timerLabel").innerText = "DURASI KETERLAMBATAN";
-            document.getElementById("dendaArea").style.display = "block";
-            
-            document.getElementById("timer").innerHTML = "+ " + d + "h " + h + "j " + m + "m " + s + "s";
-
-            if (hoursLate <= 6) {
-                denda = 100000;
-                document.getElementById("dendaLabel").innerText = "Denda Telat 1-6j";
-            } else if (hoursLate <= 12) {
-                denda = 150000;
-                document.getElementById("dendaLabel").innerText = "Denda Telat 6-12j";
-            } else {
-                denda = 200000;
-                document.getElementById("dendaLabel").innerText = "Denda > 12j (Full Day)";
-            }
-        }
-
-        const totalTagihan = sewaPokok + ongkir + denda;
-
-        document.getElementById("ongkirValue").innerText = "Rp " + ongkir.toLocaleString('id-ID');
-        document.getElementById("dendaValue").innerText = "Rp " + denda.toLocaleString('id-ID');
-        document.getElementById("finalTotal").innerText = "Rp " + totalTagihan.toLocaleString('id-ID');
+        document.getElementById("labelHari").innerText = "Tambahan Hari ke-" + hariBerjalan;
+        document.getElementById("biayaUnit").innerText = "Rp " + biayaUnitTertahan.toLocaleString('id-ID');
+        document.getElementById("finalTotal").innerText = "Rp " + totalAkhir.toLocaleString('id-ID');
     }
-
-    function showModal() { document.getElementById("myModal").style.display = "flex"; }
-    function closeModal() { document.getElementById("myModal").style.display = "none"; }
 
     function downloadReceipt() {
         const receipt = document.getElementById('receipt');
         html2canvas(receipt, { backgroundColor: "#020617", scale: 2 }).then(canvas => {
             const link = document.createElement('a');
-            link.download = 'Nota Muhammad.jpg';
+            link.download = 'Nota_Revisi_Muhammad.jpg';
             link.href = canvas.toDataURL('image/jpeg', 0.9);
             link.click();
         });
     }
 
-    setInterval(updateSystem, 1000);
-    updateSystem();
+    setInterval(updateInvoice, 1000);
+    updateInvoice();
 </script>
 
 </body>
